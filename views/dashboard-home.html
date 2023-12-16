@@ -22,6 +22,17 @@
             <span class="text-white">SPA</span> Center
           </h1>
         </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -52,15 +63,19 @@
               <a
                 class="nav-link active"
                 aria-current="page"
-                href="/dashboard/reservaciones"
+                href="/dashboard/usuarios"
                 >Usuarios</a
               >
             </li>
           </ul>
         </div>
-        <a href="/" class="navbar-brand ml-lg-3" onclick="logOut()">
-          <h1 class="nav-link active">Cerrar Sesión</h1>
-        </a>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/" class="nav-link active" onclick="logOut()">
+              Cerrar Sesión
+            </a>
+          </li>
+        </ul>
       </nav>
     </div>
     <div
@@ -74,7 +89,7 @@
         <div class="d-flex justify-content-center">
           <div class="d-flex flex-wrap pt-4">
             <div class="px-3">
-              <a href="/dashboard/usuarios" style="text-decoration: none">
+              <a href="/dashboard/clientes" style="text-decoration: none">
                 <div class="card" style="width: 18rem; border: 0px !important">
                   <img src="/img/usuario.png" class="img-fluid" />
                   <div class="card-body text-center">
@@ -102,7 +117,7 @@
               </a>
             </div>
             <div class="px-3">
-              <a href="/dashboard/clientes" style="text-decoration: none">
+              <a href="/dashboard/usuarios" style="text-decoration: none">
                 <div class="card" style="width: 18rem; border: 0px !important">
                   <img src="/img/cliente.png" class="img-fluid" />
                   <div class="card-body text-center">
