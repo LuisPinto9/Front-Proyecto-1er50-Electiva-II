@@ -3,135 +3,206 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/styles.css" type="text/css" />
     <title>Inicio</title>
   </head>
   <body>
-    <div class="titulo">
-      <span
-        ><br />
-        Bienvenido A "Barber Estilo Radiante"</span
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+      <nav
+        class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5 d-flex justify-content-between"
       >
+        <a href="/" class="navbar-brand ml-lg-3">
+          <h1 class="text-primary">
+            <span class="text-white">SPA</span> Center
+          </h1>
+        </a>
+        <a href="/login" class="btn btn-primary">Login</a>
+      </nav>
     </div>
-    <!-- about -->
-    <div id="about" class="about">
-      <div class="container">
-        <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <div class="about_box">
-              <h2>Acerca De Nosotros</h2>
-              <p>
-                Bienvenido a Estilo Radiante Barber, donde no solo transformamos
-                cabellos, ¡creamos experiencias de estilo inigualables! Más que
-                una barbería, somos un equipo apasionado de barberos
-                profesionales, dedicados a potenciar tu estilo personal y elevar
-                tu confianza con cortes de cabello que son obras de arte.
-                <br /><br />
-                ¡Descubre la Revolución del Estilo!
-                <br /><br />
-                En Estilo Radiante Barber, no se trata solo de un corte de pelo;
-                es una experiencia que resalta tu autenticidad. Nuestro equipo
-                apasionado no solo sigue tendencias, las crea. Cada visita es
-                una oportunidad para experimentar una atención personalizada y
-                un cuidado meticuloso. Entra a un ambiente donde la pasión por
-                el arte de la barbería se fusiona con un compromiso
-                inquebrantable con tu estilo.
-                <br /><br />
-                <b>Visión:</b> Ser la referencia en barbería, donde la
-                innovación y la autenticidad se encuentran para crear estilos
-                inolvidables. <br /><br />
-                <b>Misión:</b> Construir conexiones auténticas con cada cliente,
-                ofreciendo servicios excepcionales que no solo transformen su
-                cabello, sino que también eleven su confianza y estilo personal.
-                En Estilo Radiante Barber, cada visita es un paso hacia la mejor
-                versión de ti mismo. ¡Únete a nosotros y destaca con
-                autenticidad!
-              </p>
-            </div>
-          </div>
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-            <div class="about_img">
-              <figure>
-                <img src="img/about.jpg" alt="#" />
-              </figure>
+    <!-- Navbar End -->
+
+    <!-- Carousel Start -->
+    <div class="container-fluid p-0 mb-5 pb-5">
+      <div
+        id="header-carousel"
+        class="carousel slide carousel-fade"
+        data-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <div
+            class="carousel-item position-relative active"
+            style="min-height: 100vh"
+          >
+            <img
+              class="position-absolute w-100 h-100"
+              src="img/ser.png"
+              style="object-fit: cover"
+            />
+            <div
+              class="carousel-caption d-flex flex-column align-items-center justify-content-center"
+            >
+              <div class="p-3" style="max-width: 900px">
+                <h6
+                  class="text-white text-uppercase mb-3 animate__animated animate__fadeInDown"
+                  style="letter-spacing: 3px"
+                >
+                  Spa & Beauty Center
+                </h6>
+                <h3 class="display-3 text-capitalize text-white mb-3">
+                  Massage Treatment
+                </h3>
+                <p class="mx-md-5 px-5">
+                  Lorem rebum magna dolore amet lorem eirmod magna erat diam
+                  stet. Sadips duo stet amet amet ndiam elitr ipsum labore diam
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- end about -->
-    <!-- service -->
-    <div id="service" class="service">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="ourheading">
-              <h2><strong class="white_ll">Nuestros Servicios</strong></h2>
+    <!-- Carousel End -->
+
+        <!-- Testimonial Start -->
+        <div class="container-fluid py-5">
+          <div class="container py-5">
+            <div class="row align-items-center">
+              <div class="col-lg-6 pb-5 pb-lg-0">
+                <img class="img-fluid w-100" src="img/ser.png" alt="" />
+              </div>
+              <div class="col-lg-6">
+                <h6
+                  class="d-inline-block text-primary text-uppercase bg-light py-1 px-2"
+                >
+                  Testimonial
+                </h6>
+                <h1 class="mb-4">What Our Clients Say!</h1>
+                <div class="owl-carousel testimonial-carousel">
+                  <div class="position-relative">
+                    <i
+                      class="fa fa-3x fa-quote-right text-primary position-absolute"
+                      style="top: -6px; right: 0"
+                    ></i>
+                    <p class="m-0">
+                      Aliquyam sed elitr elitr erat sed diam ipsum eirmod eos lorem
+                      nonumy. Tempor sea ipsum diam sed clita dolore eos dolores
+                      magna erat dolore sed stet justo et dolor.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Cuadros para describir servicios -->
+        <!-- Testimonial End -->
+
+    <!-- Team Start -->
+    <div class="container-fluid py-5">
+      <div class="container pt-5">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h6
+              class="d-inline-block bg-light text-primary text-uppercase py-1 px-2"
+            >
+              Services
+            </h6>
+            <h1 class="mb-5">Beauty Specialist</h1>
+          </div>
+        </div>
         <div class="row">
-          <!-- Servicio 1 -->
-          <div class="col-md-4">
-            <div class="service_box">
-              <figure>
-                <img src="img/ser.png" alt="Servicio 1" class="service-image" />
-              </figure>
-              <h2>Peluqueria</h2>
-              <p>
-                ¡Bienvenido a la Transformación con Barber Estilo Radiante!
-                Descubre la excelencia en peluquería donde cada corte es una
-                obra de arte. Transformamos tu cabello con estilos modernos que
-                potencian tu belleza y confianza. No solo hacemos cortes,
-                creamos tendencias.
-              </p>
+          <div class="col-lg-3 col-md-6">
+            <div class="team position-relative overflow-hidden mb-5">
+              <img class="img-fluid" src="img/ser.png" alt="" />
+              <div class="position-relative text-center">
+                <div class="team-text bg-primary text-white">
+                  <h5 class="text-white text-uppercase">Olivia Mia</h5>
+                  <p class="m-0">Spa & Beauty Expert</p>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Servicio 2 -->
-          <div class="col-md-4">
-            <div class="service_box">
-              <figure>
-                <img
-                  src="img/ser1.png"
-                  alt="Servicio 2"
-                  class="service-image"
-                />
-              </figure>
-              <h2>Barberia</h2>
-              <p>
-                Sumérgete en el mundo del estilo con nosotros, donde cada corte
-                es más que una transformación; es una declaración de
-                autenticidad. Nuestros barberos expertos son artesanos de la
-                precisión, esculpiendo cortes y estilos de vanguardia para
-                ofrecerte un look distintivo y cuidado.
-              </p>
+          <div class="col-lg-3 col-md-6">
+            <div class="team position-relative overflow-hidden mb-5">
+              <img class="img-fluid" src="img/ser.png" alt="" />
+              <div class="position-relative text-center">
+                <div class="team-text bg-primary text-white">
+                  <h5 class="text-white text-uppercase">Cory Brown</h5>
+                  <p class="m-0">Spa & Beauty Expert</p>
+                </div>
+              </div>
             </div>
           </div>
-          <!-- Servicio 3 -->
-          <div class="col-md-4">
-            <div class="service_box">
-              <figure>
-                <img
-                  src="img/ser3.png"
-                  alt="Servicio 3"
-                  class="service-image"
-                />
-              </figure>
-              <h2>Pedicure y Manicure</h2>
-              <p>
-                Descubre la elegancia del cuidado en tus manos y pies con
-                nuestros expertos en pedicure y manicure, te brindaremos un
-                servicio dedicado para realzar la belleza natural de tus uñas.
-                ¡Vive la experiencia única de Estilo Radiante y dale a tus uñas
-                el tratamiento que se merecen!
-              </p>
+          <div class="col-lg-3 col-md-6">
+            <div class="team position-relative overflow-hidden mb-5">
+              <img class="img-fluid" src="img/ser.png" alt="" />
+              <div class="position-relative text-center">
+                <div class="team-text bg-primary text-white">
+                  <h5 class="text-white text-uppercase">Elizabeth Ross</h5>
+                  <p class="m-0">Spa & Beauty Expert</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="team position-relative overflow-hidden mb-5">
+              <img class="img-fluid" src="img/ser.png" alt="" />
+              <div class="position-relative text-center">
+                <div class="team-text bg-primary text-white">
+                  <h5 class="text-white text-uppercase">Kelly Walke</h5>
+                  <p class="m-0">Spa & Beauty Expert</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <%-include('./templates/authors')%> <%-include('./templates/footer')%>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Team End -->
+
+
+
+    <!-- Footer Start -->
+    <div
+      class="footer container-fluid position-relative bg-dark py-5"
+      style="margin-top: 90px"
+    >
+      <div class="container pt-5">
+        <div class="row">
+          <div class="col-lg-6 pr-lg-5 mb-5">
+            <a href="/" class="navbar-brand">
+              <h1 class="mb-3 text-white">
+                <span class="text-primary">SPA</span> Center
+              </h1>
+            </a>
+            <p>
+              Aliquyam sed elitr elitr erat sed diam ipsum eirmod eos lorem
+              nonumy. Tempor sea ipsum diam sed clita dolore eos dolores magna
+              erat dolore sed stet justo et dolor.
+            </p>
+            <p>
+              <i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA
+            </p>
+            <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+            <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer End -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
