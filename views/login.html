@@ -13,8 +13,6 @@
     <title>Login</title>
   </head>
   <body>
-    
-
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center">
@@ -32,7 +30,7 @@
                 </div>
                 <form action="#" class="signin-form">
                   <div class="form-group mt-3">
-                    <input type="text" class="form-control" required />
+                    <input type="text" class="form-control" id="username" required />
                     <label class="form-control-placeholder" for="username"
                       >Username</label
                     >
@@ -41,6 +39,7 @@
                     <input
                       type="password"
                       class="form-control"
+                      id="password"
                       required
                     />
                     <label class="form-control-placeholder" for="password"
@@ -53,8 +52,8 @@
                   </div>
                   <div class="form-group">
                     <button
-                      type="submit"
                       class="form-control btn btn-primary rounded submit px-3"
+                      id="btnLogin"
                     >
                       Sign In
                     </button>
@@ -72,5 +71,6 @@
       integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
       crossorigin="anonymous"
     ></script>
+    <script src="./js/script-login.js"></script>
   </body>
 </html>
