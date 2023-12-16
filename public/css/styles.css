@@ -131,11 +131,15 @@ h6,
     transition: .5s;
 }
 
-
-
 /*footer*/
 .footer p,
 .footer a,
 .footer i {
     color: #CCCCCC !important;
+}
+
+.contianer{
+    align-items: center !important;
+    text-align: center !important
+    ;
 }
