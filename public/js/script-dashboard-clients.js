@@ -2,7 +2,7 @@ console.log("Inicio del script");
 
 
 const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
-const authorizationToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDI3NTU2MTYsImV4cCI6MTcwMjg0MjAxNn0.deQpcFR6OMeYRxAHa9UD5vDTHZrN8BKQ4rdAIOFhlvc";
+const authorizationToken = localStorage.getItem("login")
 
 fetch(apiUrl, {
     headers: {
