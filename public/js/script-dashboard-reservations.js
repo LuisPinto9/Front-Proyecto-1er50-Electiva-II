@@ -10,14 +10,17 @@ const loadTable = () => {
     .then((data) => {
       const tbody = document.getElementById("tBody");
       tbody.innerHTML = "";
-      const selelectReservation = document.getElementById("select-reservation");
-      selelectReservation.innerHTML = "";
-
+      document.getElementById("select-reservation").innerHTML = "";
+      const optionDefault = document.createElement("option");
+      optionDefault.value = "Seleccione un ID";
+      optionDefault.innerText = "Seleccione un ID";
+      document.getElementById("select-reservation").appendChild(optionDefault);
+      const select = document.getElementById("select-reservation");
       data.data.forEach((element) => {
-        const select = document.createElement("option");
-        select.value = element.id;
-        select.textContent = element.id;
-        selelectReservation.appendChild(select);
+        const option = document.createElement("option");
+        option.value = element.id;
+        option.textContent = element.id;
+        select.appendChild(option);
 
         const row = document.createElement("tr");
         const dateStart = dateFormat(element.bookingStartDate);
@@ -47,39 +50,39 @@ const loadTable = () => {
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">ID</span>
-                    <input disabled type="number" id="idEdit" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="number" id="idEdit${element.id}" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">service</span>
-                    <input type="text" class="form-control" id="serviceEdit" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" id="serviceEdit${element.id}" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">bookingStartDate</span>
-                    <input type="datetime-local" id="dateStartEdit" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">bookingEndDate</span>
-                    <input type="datetime-local" id="dateEndEdit" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Cliente</span>
-                    <input disabled type="text" id="clientEdit" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="text" id="clientEdit${element.id}" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">comments</span>
-                    <input type="text" id="commentsEdit" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="text" id="commentsEdit${element.id}" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Close</button>
-                <button type="button" class="btn btn-primary" onClick="updateElement()">Aceptar</button>
+                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Aceptar</button>
               </div>
             </div>
           </div>
@@ -105,6 +108,7 @@ const actualizarTabla = (datos) => {
         <td>${element.bookingStartDate}</td>
         <td>${element.bookingEndDate}</td>
         <td>${element.service}</td>
+        <td>${element.client.name}</td>
         <td>${element.comments}</td>
         <td><!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${element._id}">
@@ -122,34 +126,45 @@ const actualizarTabla = (datos) => {
               <div class="modal-body">
 
                     <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">ID</span>
+                    <input disabled type="number" id="idEdit${element.id}" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    </div>
+
+                    <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">service</span>
-                    <input type="text" class="form-control" value=${element.service} placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                    <input type="text" class="form-control" id="serviceEdit${element.id}" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">bookingStartDate</span>
-                    <input type="datetime-local" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">bookingEndDate</span>
-                    <input type="datetime-local" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Cliente</span>
+                    <input disabled type="text" id="clientEdit${element.id}" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">comments</span>
-                    <input type="text" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="text" id="commentsEdit${element.id}" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="editModal">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Close</button>
+                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Aceptar</button>
               </div>
             </div>
           </div>
         </div></td>
-        <td><button type="button" value=${element.id} class="btn btn-danger">Eliminar</button></td>
+        <td><button type="button" value=${element.id} onClick="deleteElement(this.value)" class="btn btn-danger">Eliminar</button></td>
 
         `;
     document.getElementById("tBody").appendChild(row);
@@ -272,13 +287,12 @@ document.getElementById("limpiar").addEventListener("click", () => {
 chargeSelect();
 loadTable();
 
-const updateElement = () => {
-  const id = document.getElementById("idEdit").value;
-  const service = document.getElementById("serviceEdit").value;
-  const dateStart = document.getElementById("dateStartEdit").value;
-  const dateEnd = document.getElementById("dateEndEdit").value;
-  const client = document.getElementById("clientEdit").value;
-  const comments = document.getElementById("commentsEdit").value;
+const updateElement = (id) => {
+  const service = document.getElementById("serviceEdit"+id).value;
+  const dateStart = document.getElementById("dateStartEdit"+id).value;
+  const dateEnd = document.getElementById("dateEndEdit"+id).value;
+  const client = document.getElementById("clientEdit"+id).value;
+  const comments = document.getElementById("commentsEdit"+id).value;
 
   const updateData = {
     bookingStartDate: dateStart,
@@ -287,6 +301,7 @@ const updateElement = () => {
     cliente: client,
     comments: comments,
   };
+
   const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
   const token = localStorage.getItem("login");
   fetch(URI, {
