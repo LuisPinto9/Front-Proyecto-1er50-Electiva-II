@@ -1,16 +1,5 @@
-const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/user";
+const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/login/";
 const authorizationToken = localStorage.getItem("login");
-
-fetch(apiUrl, {
-  headers: {
-    Authorization: `${authorizationToken}`,
-  },
-})
-  .then((datos) => datos.json())
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => console.error(error));
 
 const loadTable = () => {
   document.getElementById("table-body").innerHTML = "";
@@ -27,26 +16,83 @@ const loadTable = () => {
     })
       .then((datos) => datos.json())
       .then((datos) => {
-        console.log(datos);
         const select = document.getElementById("select-id");
-        datos.data.forEach((cliente) => {
+        datos.data.forEach((user) => {
           const row = document.createElement("tr");
           row.innerHTML = `
-              <td>${cliente.id}</td>
-              <td>${cliente.name}</td>
-              <td>editar</td>
-              <td><button class='btn btn-danger' value='${cliente.id}' onclick='drop(this.value)'>Eliminar</button></td>
+              <td>${user._id}</td>
+              <td>${user.username}</td>
+              <td>${user.password}</td>
+              <td>
+              <i class="bi bi-pencil-fill"
+              type="button" 
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop${user._id}" 
+              style="color: #FFC300; font-size: 2rem;">
+              </i>
+              <div
+              class="modal fade"
+              id="staticBackdrop${user._id}"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                      Editar usuario
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="add-client-form">
+                      <div class="mb-3">
+                        <label for="update-username" class="form-label">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="update-username" value='${user.username}' required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="update-password" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" value='${user.password}' id="update-password" />
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                      onclick="
+                      loadTable()"
+                    >
+                      Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick='update(this.getAttribute("data-value"))' data-value="${user._id}">
+                      Editar usuario
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div></td></td>
+              <td><i class="bi bi-x-circle" data-value="${user._id}" type="button" onClick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
             `;
 
           const option = document.createElement("option");
-          option.value = cliente.id;
-          option.innerText = cliente.id;
+          option.value = user._id;
+          option.innerText = user._id;
           select.appendChild(option);
 
           document.getElementById("table-body").appendChild(row);
         });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => alert(error));
   });
 };
 
@@ -56,14 +102,11 @@ const findById = () => {
   const option = document.getElementById("select-id");
   if (option.value !== "Seleccione un ID") {
     return new Promise((resolve, reject) => {
-      fetch(
-        `https://back-proyecto-1er50-electiva-ii.vercel.app/client/${option.value}`,
-        {
-          headers: {
-            Authorization: `${authorizationToken}`,
-          },
-        }
-      )
+      fetch(apiUrl + `${option.value}`, {
+        headers: {
+          Authorization: `${authorizationToken}`,
+        },
+      })
         .then((data) => {
           if (!data.ok) {
             throw new Error(`Error: ${data.status} - ${data.statusText}`);
@@ -75,14 +118,67 @@ const findById = () => {
           document.getElementById("table-body").innerHTML = "";
           const row = document.createElement("tr");
           row.innerHTML = `
-                    <td>${datos.id}</td>
-                    <td>${datos.name}</td>
-                    <td>${datos.celphone || "N/A"}</td>
-                    <td>${datos.email || "N/A"}</td>
-                    <td></td>
-                    <td><button class='btn btn-danger' value='${
-                      datos.id
-                    }' onclick='drop(this.value)'>Eliminar</button></td>
+                    <td>${datos._id}</td>
+                    <td>${datos.username}</td>
+                    <td>${datos.password}</td>
+                    <td><i class="bi bi-pencil-fill"
+                    type="button" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop${datos._id}" 
+                    style="color: #FFC300; font-size: 2rem;">
+                    </i>
+                  <div
+                    class="modal fade"
+                    id="staticBackdrop${datos._id}"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabindex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                            Editar usuario
+                          </h1>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <form id="add-client-form">
+                            <div class="mb-3">
+                              <label for="update-username" class="form-label">Nombre de usuario</label>
+                              <input type="text" class="form-control" id="update-username" value="${datos.username}" required />
+                            </div>
+                            <div class="mb-3">
+                              <label for="update-password" class="form-label">Contraseña</label>
+                              <input type="text" class="form-control" value="${datos.password}" id="update-password" />
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                            onclick="
+                      loadTable()"
+                          >
+                            Cancelar
+                          </button>
+                          <button type="button" class="btn btn-primary" onclick='update(this.getAttribute("data-value"))' data-value="${datos._id}">
+                            Editar usuario
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div></td>
+                    <td><i class="bi bi-x-circle" data-value='${datos._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
                 `;
 
           document.getElementById("table-body").appendChild(row);
@@ -93,7 +189,7 @@ const findById = () => {
 };
 
 const drop = (id) => {
-  const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/client/${id}`;
+  const URI = apiUrl + id;
   fetch(URI, {
     method: "DELETE",
     headers: {
@@ -104,45 +200,40 @@ const drop = (id) => {
     .then((result) => {
       if (result.state) {
         loadTable();
-        alert("Cliente eliminado");
+        alert("Usuario eliminado.");
       } else {
-        alert("Error al eliminar el cliente");
+        alert("Error al eliminar el usuario.");
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert("Ocurrió un error al eliminar el cliente");
+      alert("Ocurrió un error al eliminar el usuario.");
     });
 };
 
-const addClient = () => {
-  const id = document.getElementById("id").value;
-  const name = document.getElementById("name").value;
-  const celphone = document.getElementById("celphone").value;
-  const email = document.getElementById("email").value;
+const add = () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
   // Validación simple (puedes agregar más validaciones según tus necesidades)
-  if (!name) {
-    alert("Por favor, ingresa el nombre del cliente.");
+  if (!username || !password) {
+    alert("Por favor, ingresa el nombre del usuario.");
     return;
   }
 
-  // Objeto que representa el nuevo cliente
-  const newClient = {
-    id: id,
-    name: name,
-    celphone: celphone,
-    email: email,
+  const newUser = {
+    username: username,
+    password: password,
   };
 
-  // Realiza la solicitud para agregar el nuevo cliente
-  fetch(apiUrl, {
+  const URI = apiUrl + "save";
+
+  fetch(URI, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `${authorizationToken}`,
     },
-    body: JSON.stringify(newClient),
+    body: JSON.stringify(newUser),
   })
     .then((response) => {
       if (!response.ok) {
@@ -154,13 +245,44 @@ const addClient = () => {
       if (result.state) {
         // Si se agrega exitosamente, recarga la tabla
         loadTable();
-        alert("Cliente agregado exitosamente.");
+        alert("Usuario agregado exitosamente.");
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
       } else {
-        alert("Error al agregar el cliente.");
+        alert("Error al agregar el usuario.");
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert("Ocurrió un error al agregar el cliente.");
+      alert("Ocurrió un error al agregar el usuario.");
+    });
+};
+
+const update = (id) => {
+  const updateUsername = document.getElementById("update-username").innerHTML;
+  const updatePassword = document.getElementById("update-password").innerHTML;
+
+  const updateData = {
+    username: updateUsername,
+    password: updatePassword,
+  };
+
+  fetch(apiUrl + id, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${authorizationToken}`,
+    },
+    body: JSON.stringify(updateData),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.state) {
+        alert("Usuario actualizado exitosamente.");
+      } else {
+        alert("Error al actualizar el usuario.");
+      }
+    })
+    .catch((error) => {
+      alert("Ocurrió un error al actualizar el usuario.");
     });
 };

@@ -143,3 +143,7 @@ h6,
     text-align: center !important
     ;
 }
+
+.t-body{
+    align-items: center !important;
+}
