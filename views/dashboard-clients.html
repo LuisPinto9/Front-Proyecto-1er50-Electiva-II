@@ -1,18 +1,20 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
     <title>cliente</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
     />
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -20,86 +22,82 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="/">Inicio</a>
         </div>
-        <div>
-        </div>
+        <div></div>
       </div>
     </nav>
 
-
-
     <div class="container-fluid p-0">
-        <nav
-          class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5 d-flex justify-content-between"
+      <nav
+        class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-lg-5 d-flex justify-content-between"
+      >
+        <a href="/" class="navbar-brand ml-lg-3">
+          <h1 class="text-primary">
+            <span class="text-white">SPA</span> Center
+          </h1>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          <a href="/" class="navbar-brand ml-lg-3">
-            <h1 class="text-primary">
-              <span class="text-white">SPA</span> Center
-            </h1>
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="/dashboard-home"
-                  >Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="/dashboard-clientes"
-                  >Clientes</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="/dashboard-reservaciones"
-                  >Reservaciones</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  aria-current="page"
-                  href="/dashboard-usuarios"
-                  >Usuarios</a
-                >
-              </li>
-            </ul>
-          </div>
-
+        <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="/" class="nav-link active" onclick="logOut()">
-                Cerrar Sesión
-              </a>
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/dashboard-home"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/dashboard-clientes"
+                >Clientes</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/dashboard-reservaciones"
+                >Reservaciones</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/dashboard-usuarios"
+                >Usuarios</a
+              >
             </li>
           </ul>
-        </nav>
-      </div>
-   
-        
+        </div>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a href="/" class="nav-link active" onclick="logOut()">
+              Cerrar Sesión
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
     <div class="container">
       <div class="input-group mb-3 pt-3">
         <span class="input-group-text" id="basic-addon1">Id para buscar</span>
-        <select  class="form-select" id="select-id" onchange="findById()">
+        <select class="form-select" id="select-id" onchange="findById()">
           <option value="Seleccione un ID">Seleccione un ID</option>
         </select>
         <i
@@ -109,14 +107,14 @@
           onclick="loadTable()"
           style="font-size: 2.5rem"
         ></i>
-                
+
         <i
-        type="button"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-        class="bi bi-plus-circle-fill m-0 p-0"
-        style="font-size: 2.5rem; color: rgb(0, 127, 59)"
-      ></i>
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+          class="bi bi-plus-circle-fill m-0 p-0"
+          style="font-size: 2.5rem; color: rgb(0, 127, 59)"
+        ></i>
 
         <div
           class="modal fade"
@@ -141,25 +139,31 @@
                 ></button>
               </div>
               <div class="modal-body">
-
                 <form id="add-client-form">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Cedula</label>
-                        <input type="text" class="form-control" id="id" required>
-                      </div>
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="celphone" class="form-label">Teléfono</label>
-                      <input type="tel" class="form-control" id="celphone">
-                    </div>
-                    <div class="mb-3">
-                      <label for="email" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="form-control" id="email">
-                    </div>
-                  </form>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Cedula</label>
+                    <input type="text" class="form-control" id="id" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="celphone" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="celphone" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label"
+                      >Correo Electrónico</label
+                    >
+                    <input type="email" class="form-control" id="email" />
+                  </div>
+                </form>
               </div>
               <div class="modal-footer">
                 <button
@@ -169,15 +173,18 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary" onclick="addClient()">Agregar Cliente</button>
-    
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="addClient()"
+                >
+                  Agregar Cliente
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-
 
       <div class="table-responsive pt-3">
         <table class="table table-striped">
@@ -188,15 +195,19 @@
               <th>Teléfono</th>
               <th>Email</th>
               <th>Eliminar</th>
-              <th>Editar</th> 
+              <th>Editar</th>
             </tr>
           </thead>
           <tbody id="table-body"></tbody>
         </table>
       </div>
     </div>
-    <script  src="js/script-dashboard-clients.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-
+    <script src="js/script-dashboard-clients.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </body>
 </html>

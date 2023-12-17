@@ -50,6 +50,7 @@ const loadTable = () => {
                       class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="Close"
+                      onclick=loadTable()
                     ></button>
                   </div>
                   <div class="modal-body">
@@ -69,10 +70,11 @@ const loadTable = () => {
                       type="button"
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
+                      onclick=loadTable()
                     >
                       Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary" data-value="${user._id}" onclick='update(this.getAttribute("data-value"))' data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-primary" data-value="${user._id}" onclick='update(this.getAttribute("data-value"))'>
                       Editar usuario
                     </button>
                   </div>
@@ -90,7 +92,14 @@ const loadTable = () => {
           document.getElementById("table-body").appendChild(row);
         });
       })
-      .catch((error) => alert(error));
+      .catch((error) =>
+        Swal.fire({
+          title: `Error de conexión: ${error}`,
+          text: "Hubo un error al tratar de conectar con el servidor",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        })
+      );
   });
 };
 
@@ -145,6 +154,7 @@ const findById = () => {
                             class="btn-close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
+                            onclick=loadTable()
                           ></button>
                         </div>
                         <div class="modal-body">
@@ -164,10 +174,11 @@ const findById = () => {
                             type="button"
                             class="btn btn-secondary"
                             data-bs-dismiss="modal"
+                            onclick=loadTable()
                           >
                             Cancelar
                           </button>
-                          <button type="button" class="btn btn-primary" data-value="${datos._id}" onclick='update(this.getAttribute("data-value"))' data-bs-dismiss="modal">
+                          <button type="button" class="btn btn-primary" data-value="${datos._id}" onclick='update(this.getAttribute("data-value"))'>
                             Editar usuario
                           </button>
                         </div>
@@ -198,22 +209,46 @@ const drop = (id) => {
     .then((result) => {
       if (result.state) {
         loadTable();
-        alert("Usuario eliminado.");
+        Swal.fire({
+          title: "Eliminación exitosa",
+          text: `El usuario ${id} fue eliminado.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        alert("Error al eliminar el usuario.");
+        Swal.fire({
+          title: "Error al eliminar el usuario",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((error) => {
-      alert("Ocurrió un error al eliminar el usuario.");
+      Swal.fire({
+        title: "Error de conexión",
+        text: "Hubo un error al tratar de conectar con el servidor.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     });
+};
+
+const clearInputs = () => {
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
 };
 
 const add = () => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  if (!username || !password) {
-    alert("Por favor, ingresa el nombre del usuario y la contrseña.");
+  if (!username || !password || !username.trim() || !password.trim()) {
+    Swal.fire({
+      title: "Campos invalidos",
+      text: "Ingrese los campos correctamente.",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
     return;
   }
 
@@ -241,16 +276,31 @@ const add = () => {
     .then((result) => {
       if (result.state) {
         // Si se agrega exitosamente, recarga la tabla
+        Swal.fire({
+          title: "Registro exitoso",
+          text: `El usuario ${username} ha sido registrado.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
         loadTable();
-        alert("Usuario agregado exitosamente.");
         document.getElementById("username").value = "";
         document.getElementById("password").value = "";
       } else {
-        alert("Error al agregar el usuario.");
+        Swal.fire({
+          title: "Error al registrar el usuario",
+          text: "Hubo un error al tratar de registrar en la base de datos.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((error) => {
-      alert("Ocurrió un error al agregar el usuario.");
+      Swal.fire({
+        title: "Error de conexión",
+        text: "Hubo un error al tratar de conectar con el servidor.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     });
 };
 
@@ -258,8 +308,18 @@ const update = (id) => {
   const updateUsername = document.getElementById("update-username" + id).value;
   const updatePassword = document.getElementById("update-password" + id).value;
 
-  if (!updateUsername || !updatePassword) {
-    alert("Por favor, ingresa el nombre del usuario y la contrseña.");
+  if (
+    !updateUsername ||
+    !updatePassword ||
+    !updateUsername.trim() ||
+    !updatePassword.trim()
+  ) {
+    Swal.fire({
+      title: "Campos invalidos",
+      text: "Ingrese los campos correctamente.",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
     return;
   }
 
@@ -279,13 +339,27 @@ const update = (id) => {
     .then((response) => response.json())
     .then((result) => {
       if (result.state) {
-        alert("Usuario actualizado exitosamente.");
-        loadTable();
+        Swal.fire({
+          title: "Actualización exitosa",
+          text: `El usuario ha sido actualizado.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        alert("Error al actualizar el usuario.");
+        Swal.fire({
+          title: "Error al actualizar el usuario",
+          text: "Hubo un error al tratar de actualizar en la base de datos.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((error) => {
-      alert("Ocurrió un error al actualizar el usuario.");
+      Swal.fire({
+        title: "Error de conexión",
+        text: "Hubo un error al tratar de conectar con el servidor.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     });
 };
