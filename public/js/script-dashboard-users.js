@@ -55,12 +55,12 @@ const loadTable = () => {
                   <div class="modal-body">
                     <form id="add-client-form">
                       <div class="mb-3">
-                        <label for="update-username" class="form-label">Nombre de usuario</label>
-                        <input type="text" class="form-control" id="update-username" value='${user.username}' required />
+                        <label for="update-username${user._id}" class="form-label">Nombre de usuario</label>
+                        <input type="text" class="form-control" id="update-username${user._id}" value='${user.username}' required />
                       </div>
                       <div class="mb-3">
-                        <label for="update-password" class="form-label">Contraseña</label>
-                        <input type="text" class="form-control" value='${user.password}' id="update-password" />
+                        <label for="update-password${user._id}" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" value='${user.password}' id="update-password${user._id}" />
                       </div>
                     </form>
                   </div>
@@ -74,7 +74,7 @@ const loadTable = () => {
                     >
                       Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary" onclick='update(this.getAttribute("data-value"))' data-value="${user._id}">
+                    <button type="button" class="btn btn-primary" data-value="${user._id}" onclick='update(this.getAttribute("data-value"))' >
                       Editar usuario
                     </button>
                   </div>
@@ -152,12 +152,12 @@ const findById = () => {
                         <div class="modal-body">
                           <form id="add-client-form">
                             <div class="mb-3">
-                              <label for="update-username" class="form-label">Nombre de usuario</label>
-                              <input type="text" class="form-control" id="update-username" value="${datos.username}" required />
+                              <label for="update-username${datos._id}" class="form-label">Nombre de usuario</label>
+                              <input type="text" class="form-control" id="update-username${datos._id}" value="${datos.username}" required />
                             </div>
                             <div class="mb-3">
-                              <label for="update-password" class="form-label">Contraseña</label>
-                              <input type="text" class="form-control" value="${datos.password}" id="update-password" />
+                              <label for="update-password${datos._id}" class="form-label">Contraseña</label>
+                              <input type="text" class="form-control" value="${datos.password}" id="update-password${datos._id}" />
                             </div>
                           </form>
                         </div>
@@ -171,7 +171,7 @@ const findById = () => {
                           >
                             Cancelar
                           </button>
-                          <button type="button" class="btn btn-primary" onclick='update(this.getAttribute("data-value"))' data-value="${datos._id}">
+                          <button type="button" class="btn btn-primary" data-value="${datos._id}" onclick='update(this.getAttribute("data-value"))'>
                             Editar usuario
                           </button>
                         </div>
@@ -258,10 +258,8 @@ const add = () => {
 };
 
 const update = (id) => {
-  const updateUsername = document.getElementById("update-username").value;
-  const updatePassword = document.getElementById("update-password").value;
-
-  console.log(updateUsername, updatePassword);
+  const updateUsername = document.getElementById("update-username" + id).value;
+  const updatePassword = document.getElementById("update-password" + id).value;
 
   const updateData = {
     username: updateUsername,
