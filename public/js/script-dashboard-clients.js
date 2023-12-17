@@ -1,5 +1,6 @@
 console.log("Inicio del script");
-
+// import Swal from "sweetalert2";
+// import Swal from './node_modules/sweetalert2/dist/sweetalert2.esm.js';
 
 const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
 const authorizationToken = localStorage.getItem("login")
@@ -42,7 +43,7 @@ const loadTable = () => {
               <td>${cliente.name}</td>
               <td>${cliente.celphone || "N/A"}</td>
               <td>${cliente.email || "N/A"}</td>
-              <td><i class="bi bi-x-circle" data-value='${cliente.id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
+              <td><i class="bi bi-x-circle" data-value='${cliente._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
 
               
               <td>      
@@ -128,7 +129,7 @@ const findById = () => {
                     <td>${datos.name}</td>
                     <td>${datos.celphone || "N/A"}</td>
                     <td>${datos.email || "N/A"}</td>
-                    <td><i class="bi bi-x-circle" data-value='${datos.id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
+                    <td><i class="bi bi-x-circle" data-value='${datos._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
                     <td>
 
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${datos._id}">
@@ -258,17 +259,131 @@ const addClient = () => {
             alert("Ocurrió un error al agregar el cliente.");
         });
 };
+let errorMessages = {};
 
 
+// const validateField = (fieldName, value) => {
+//     switch (fieldName) {
+//         case "Id":
+//             const idPattern = /^[0-9]+$/;
+//             if (!idPattern.test(value) || parseInt(value, 10) === 0) {
+//                 errorMessages[fieldName] =
+//                     "El campo ID debe contener solo números y no ser igual a cero.";
+//             } else {
+//                 errorMessages[fieldName] = "";
+//             }
+//             break;
+//         case "Nombre":
+//             const nombrePattern = /^[\p{L}ÁÉÍÓÚáéíóúÑñ\s]+$/u;
+//             if (!nombrePattern.test(value) || value.length < 3) {
+//                 errorMessages[fieldName] =
+//                     "El campo Nombre debe contener solo letras y tener al menos 3 caracteres.";
+//             } else {
+//                 errorMessages[fieldName] = "";
+//             }
+//             break;
+//         // Agrega otras validaciones para los campos restantes según sea necesario
+//         default:
+//             break;
+//     }
+// };
+
+const validateField = (fieldName, value) => {
+    
+    console.log("valor", fieldName, value)
+    switch (fieldName) {
+        // case "Id":
+        //     const idPattern = /^[0-9]+$/;
+        //     if (!idPattern.test(value) || parseInt(value, 10) === 0) {
+        //         e rrorMessages[fieldName] =
+        //             "El campo ID debe contener solo números y no ser igual a cero.";
+        //     } else { 
+        //         errorMessages[fieldName] = "";
+        //     }
+        //     break;
+        
+        case "Nombre":
+            const nombrePattern = /^[\p{L}ÁÉÍÓÚáéíóúÑñ\s]+$/u;
+            if (!nombrePattern.test(value)) {
+                console.log("valor nombre 222")
+
+                errorMessages[fieldName] =
+                    "El campo Nombre debe contener solo letras y tener al menos 3 caracteres.";
+            } else {
+                errorMessages[fieldName] = "";
+            }
+            break;
+        case "Celphone":
+            const celphonePattern = /^[0-9]{10}$/;
+            if (!celphonePattern.test(value)) {
+                errorMessages[fieldName] = "El campo Celphone debe contener 10 dígitos numéricos.";
+                console.log("valor celular222")
+                
+            } else {
+                errorMessages[fieldName] = "";
+            }
+            break;
+        case "Email":
+            const emailPattern = /^[\w-]+(?:\.[\w-]+)*@(?:gmail\.com|hotmail\.com|uptc\.edu\.co)$/;
+            if (!emailPattern.test(value)) {
+                console.log("valor email")
+
+                errorMessages[fieldName] =
+                    "El campo Email debe tener un formato válido (@gmail.com, @hotmail.com, @uptc.edu.co).";
+            } else {
+                errorMessages[fieldName] = "";
+            }
+            break;
+        // Agrega otras validaciones para los campos restantes según sea necesario
+        default:
+            break;
+    }
+};
+const validateFields = (updatedName,updatedCelphone,updatedEmail) => {
+   
+
+    validateField("Nombre", updatedName);
+    validateField("Celphone", updatedCelphone);
+    validateField("Email", updatedEmail);
+
+    mostrarMensajeError();
+};
+
+const mostrarMensajeError = () => {
+    const hasErrors = Object.values(errorMessages).some(message => message !== "");
+
+    if (hasErrors) {
+        Swal.fire({
+            title: "Campos inválidos",
+            text: "Uno o más campos contienen datos inválidos. Por favor, corrige los errores.",
+            icon: "error",
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+        });
+    }
+};
 
 const updateClient = (ClienteId1, clientId) => {
     console.log("aa", clientId)
     console.log("aa2", ClienteId1)
+    
+
     const updatedName = document.getElementById("update-name" + clientId).value;
     const updatedCelphone = document.getElementById("update-celphone" + clientId).value;
     const updatedEmail = document.getElementById("update-email" + clientId).value;
-    const updateData = {
 
+
+   
+    validateFields(updatedName, updatedCelphone, updatedEmail);
+    const hasErrors = Object.values(errorMessages).some((message) => message !== "");
+
+    if (hasErrors) {
+        mostrarMensajeError();
+        return; // Detener la ejecución si hay errores
+    }
+    
+
+    const updateData = {
         name: updatedName,
         celphone: updatedCelphone,
         email: updatedEmail
