@@ -114,7 +114,7 @@ const findById = () => {
           return data.json();
         })
         .then((result) => {
-          const datos = result.data[0];
+          const datos = result.data;
           document.getElementById("table-body").innerHTML = "";
           const row = document.createElement("tr");
           row.innerHTML = `
@@ -184,6 +184,8 @@ const findById = () => {
         })
         .catch((error) => reject(error));
     });
+  } else if ((option.value = "Seleccione un ID")) {
+    loadTable();
   }
 };
 
