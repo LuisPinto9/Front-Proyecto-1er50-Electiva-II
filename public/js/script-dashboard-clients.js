@@ -17,6 +17,12 @@ fetch(apiUrl, {
 
 const loadTable = () => {
     document.getElementById("table-body").innerHTML = "";
+  document.getElementById("select-id").innerHTML = "";
+  const optionDefault = document.createElement("option");
+  optionDefault.value = "Seleccione un ID";
+  optionDefault.innerText = "Seleccione un ID";
+  document.getElementById("select-id").appendChild(optionDefault);
+
     return new Promise((resolve, reject) => {
 
         fetch(apiUrl, {
@@ -36,12 +42,10 @@ const loadTable = () => {
               <td>${cliente.name}</td>
               <td>${cliente.celphone || "N/A"}</td>
               <td>${cliente.email || "N/A"}</td>
-              <td>${cliente.reservations.map(reserva => reserva.id).join(', ') || "N/A"}</td>
-              <td><button class='btn btn-danger' value='${cliente.id
-                        }' onclick='drop(this.value)'>Eliminar</button></td>
+              <td><i class="bi bi-x-circle" data-value='${cliente.id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
 
-                    <td>
-                    
+              
+              <td>      
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
                     Editar
                 </button>
@@ -124,16 +128,50 @@ const findById = () => {
                     <td>${datos.name}</td>
                     <td>${datos.celphone || "N/A"}</td>
                     <td>${datos.email || "N/A"}</td>
-                    <td>${datos.reservations.map(reserva => reserva.id).join(', ') || "N/A"}</td>
-                    <td><button class='btn btn-danger' value='${datos.id}' onclick='drop(this.value)'>Eliminar</button></td>
-                    
-
+                    <td><i class="bi bi-x-circle" data-value='${datos.id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
                     <td>
-                    
-                     
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${datos._id}">
+                    Editar
+                </button>
+            
+                <!-- Modal -->
+                <div class="modal fade" id="editModal${datos._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="editModalLabel">Editar Cliente</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+            
+            
+                                <div class="mb-3">
+                                    <label for="update-name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="update-name${datos._id}" value="${datos.name}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-celphone" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="update-celphone${datos._id}" value="${datos.celphone}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-email" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="update-email${datos._id}" value="${datos.email}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            
+
+                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="updateClient('${datos.id}' , '${datos._id}')">Actualizar Cliente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
 
 
-                </td> 
+                    </td>
                 `;
 
 
@@ -168,6 +206,12 @@ const drop = (id) => {
         });
 };
 
+const limpiarCampos =()=>{
+     document.getElementById("id").value= "";
+     document.getElementById("name").value= "";
+    document.getElementById("celphone").value= "";
+     document.getElementById("email").value= "";
+}
 
 const addClient = () => {
     const id = document.getElementById("id").value;
@@ -203,6 +247,7 @@ const addClient = () => {
         .then((result) => {
             if (result.state) {
                 loadTable();
+                limpiarCampos();
                 alert("Cliente agregado exitosamente.");
             } else {
                 alert("Error al agregar el cliente.");
@@ -216,12 +261,12 @@ const addClient = () => {
 
 
 
-const updateClient = (ClienteId1,clientId) => {
-    console.log("aa",clientId)
-    console.log("aa2",ClienteId1)
-    const updatedName = document.getElementById("update-name"+clientId).value;
-    const updatedCelphone = document.getElementById("update-celphone"+clientId).value;
-    const updatedEmail = document.getElementById("update-email"+clientId).value;
+const updateClient = (ClienteId1, clientId) => {
+    console.log("aa", clientId)
+    console.log("aa2", ClienteId1)
+    const updatedName = document.getElementById("update-name" + clientId).value;
+    const updatedCelphone = document.getElementById("update-celphone" + clientId).value;
+    const updatedEmail = document.getElementById("update-email" + clientId).value;
     const updateData = {
 
         name: updatedName,
