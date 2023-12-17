@@ -18,7 +18,7 @@ fetch(apiUrl, {
 const loadTable = () => {
     document.getElementById("table-body").innerHTML = "";
     return new Promise((resolve, reject) => {
-        
+
         fetch(apiUrl, {
             headers: {
                 Authorization: `${authorizationToken}`
@@ -28,7 +28,7 @@ const loadTable = () => {
             .then((datos) => {
                 console.log(datos);
                 const select = document.getElementById("select-id");
-                
+
                 datos.data.forEach((cliente) => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -39,16 +39,14 @@ const loadTable = () => {
               <td>${cliente.reservations.map(reserva => reserva.id).join(', ') || "N/A"}</td>
               <td><button class='btn btn-danger' value='${cliente.id
                         }' onclick='drop(this.value)'>Eliminar</button></td>
+
                     <td>
-                    
                     
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
                     Editar
                 </button>
-
+            
                 <!-- Modal -->
-
-                
                 <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -57,8 +55,8 @@ const loadTable = () => {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-
-
+            
+            
                                 <div class="mb-3">
                                     <label for="update-name" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="update-name" value="${cliente.name}">
@@ -73,15 +71,15 @@ const loadTable = () => {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente.id}')">Actualizar Cliente</button>
+                            
+
+                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                    
-
+            
 
                 </td> 
 
@@ -99,7 +97,6 @@ const loadTable = () => {
             .catch((error) => console.log(error));
     });
 };
-{/* <button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateModal' onclick='updateModal("${datos.id}")'>Actualizar</button>*/}
 
 
 loadTable();
@@ -133,11 +130,11 @@ const findById = () => {
 
                     <td>
                     
-                    
+                           
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
                     Editar
                 </button>
-
+            
                 <!-- Modal -->
                 <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -147,8 +144,8 @@ const findById = () => {
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-
-
+            
+            
                                 <div class="mb-3">
                                     <label for="update-name" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="update-name" value="${cliente.name}">
@@ -163,14 +160,15 @@ const findById = () => {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            
+
+                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                    
+            
 
 
                 </td> 
@@ -184,7 +182,6 @@ const findById = () => {
         });
     }
 };
-{/* <td><button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#updateModal' onclick='updateModal("${datos.id}")'>Actualizar</button></td> */ }
 
 const drop = (id) => {
     const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/client/${id}`;
@@ -215,14 +212,11 @@ const addClient = () => {
     const name = document.getElementById("name").value;
     const celphone = document.getElementById("celphone").value;
     const email = document.getElementById("email").value;
-
-    // Validación simple (puedes agregar más validaciones según tus necesidades)
     if (!name) {
         alert("Por favor, ingresa el nombre del cliente.");
         return;
     }
 
-    // Objeto que representa el nuevo cliente
     const newClient = {
         id: id,
         name: name,
@@ -230,7 +224,6 @@ const addClient = () => {
         email: email,
     };
 
-    // Realiza la solicitud para agregar el nuevo cliente
     fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -247,7 +240,6 @@ const addClient = () => {
         })
         .then((result) => {
             if (result.state) {
-                // Si se agrega exitosamente, recarga la tabla
                 loadTable();
                 alert("Cliente agregado exitosamente.");
             } else {
@@ -263,22 +255,18 @@ const addClient = () => {
 
 
 const updateClient = (clientId) => {
-    // Obtén los valores actualizados del formulario dentro del modal
-    
+
     const updatedName = document.getElementById("update-name").value;
     const updatedCelphone = document.getElementById("update-celphone").value;
     const updatedEmail = document.getElementById("update-email").value;
-    // console.log("jajaj",clientId,updatedName,updatedCelphone,updatedEmail)
-
-    // Lógica para realizar la actualización del cliente
     const updateData = {
-        
+
         name: updatedName,
         celphone: updatedCelphone,
         email: updatedEmail
     };
 
-    // Realiza la solicitud PUT para actualizar el cliente
+
     fetch(`https://back-proyecto-1er50-electiva-ii.vercel.app/client/${clientId}`, {
         method: "PATCH",
         headers: {
@@ -289,10 +277,10 @@ const updateClient = (clientId) => {
     })
         .then((response) => response.json())
         .then((result) => {
-            console.log(result);
             if (result.state) {
-                loadTable(); // Recarga la tabla después de la actualización
+
                 alert("Cliente actualizado exitosamente.");
+
             } else {
                 alert("Error al actualizar el cliente.");
             }
@@ -302,7 +290,7 @@ const updateClient = (clientId) => {
             alert("Ocurrió un error al actualizar el cliente.");
         });
 
-    
+
 };
 
 
