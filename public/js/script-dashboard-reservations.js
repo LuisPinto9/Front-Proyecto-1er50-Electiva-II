@@ -34,10 +34,14 @@ const loadTable = () => {
         <td>${element.client.name}</td>
         <td>${element.comments}</td>
         <td><!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${element._id}">
-          Editar
-        </button>
-        
+
+        <i class="bi bi-pencil-fill"
+              type="button" 
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop${element._id}" 
+              style="color: #FFC300; font-size: 2rem;">
+        </i>
+
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop${element._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -87,7 +91,7 @@ const loadTable = () => {
             </div>
           </div>
         </div></td>
-        <td><button type="button" value=${element.id} onClick="deleteElement(this.value)" class="btn btn-danger">Eliminar</button></td>
+        <td><button class="bi bi-x-circle"  value=${element.id} type="button" onClick="deleteElement(this.value)"  style="color: red; font-size: 2rem; border: none;"></button></td>
 
         `;
         tbody.appendChild(row);
@@ -111,6 +115,7 @@ const actualizarTabla = (datos) => {
         <td>${element.client.name}</td>
         <td>${element.comments}</td>
         <td><!-- Button trigger modal -->
+
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${element._id}">
           Editar
         </button>
@@ -231,20 +236,26 @@ const chargeSelect = () => {
 
 document.getElementById("Agregar").addEventListener("click", () => {
   const id = document.getElementById("idSend").value;
-  const name = document.getElementById("nameSend").value;
+  const service = document.getElementById("nameSend").value;
   const bookingStar = document.getElementById("bookingStar").value;
   const bookingEnd = document.getElementById("bookingEnd").value;
   const clientnSend = document.getElementById("clientnSend").value;
   const comments = document.getElementById("commentsSend").value;
 
-  if (
-    validateFields(id, name, bookingStar, clientnSend, bookingEnd, comments)
-  ) {
+  validateFields(id,service,bookingStar,bookingEnd,clientnSend);
+  const hasErrors = Object.values(errorMessages).some(
+    (message) => message !== ""
+  );
+
+  if (hasErrors) {
+    mostrarMensajeError();
+    return;
+  }
     const dataSend = {
       id: id,
       bookingStartDate: bookingStar,
       bookingEndDate: bookingEnd,
-      service: name,
+      service: service,
       comments: comments,
       client: {
         _id: clientnSend,
@@ -270,14 +281,11 @@ document.getElementById("Agregar").addEventListener("click", () => {
           cleanFields();
           loadTable();
         } else {
-          alert("some wrong");
+          alert(result.error);
           console.log(result);
         }
       })
-      .catch((err) => console.log(err));
-  } else {
-    alert("por favor llene todos los campos");
-  }
+      .catch((err) => console.log(err+" verificar que el id no este repetido"));
 });
 
 document.getElementById("limpiar").addEventListener("click", () => {
@@ -288,11 +296,21 @@ chargeSelect();
 loadTable();
 
 const updateElement = (id) => {
-  const service = document.getElementById("serviceEdit"+id).value;
-  const dateStart = document.getElementById("dateStartEdit"+id).value;
-  const dateEnd = document.getElementById("dateEndEdit"+id).value;
-  const client = document.getElementById("clientEdit"+id).value;
-  const comments = document.getElementById("commentsEdit"+id).value;
+  const service = document.getElementById("serviceEdit" + id).value;
+  const dateStart = document.getElementById("dateStartEdit" + id).value;
+  const dateEnd = document.getElementById("dateEndEdit" + id).value;
+  const client = document.getElementById("clientEdit" + id).value;
+  const comments = document.getElementById("commentsEdit" + id).value;
+
+  validateFields2(service, dateStart, dateEnd);
+  const hasErrors = Object.values(errorMessages).some(
+    (message) => message !== ""
+  );
+
+  if (hasErrors) {
+    mostrarMensajeError();
+    return;
+  }
 
   const updateData = {
     bookingStartDate: dateStart,
@@ -347,31 +365,13 @@ const deleteElement = (id) => {
     });
 };
 
-const validateFields = (
-  id,
-  name,
-  bookingStar,
-  clientnSend,
-  bookingEnd,
-  comments
-) => {
-  const validate =
-    id == undefined ||
-    name == undefined ||
-    bookingStar == undefined ||
-    bookingEnd == undefined ||
-    clientnSend == undefined ||
-    comments == undefined ||
-    id == null ||
-    name == null ||
-    bookingStar == null ||
-    bookingEnd == null ||
-    clientnSend == null ||
-    comments == null ||
-    clientnSend == "Cliente"
-      ? false
-      : true;
-  return validate;
+const validateFields = (id,service,bookingStar,bookingEnd,clientnSend)=>{
+  validateField("id", id);
+  validateField("service", service);
+  //validateField("dateStart", bookingStar);
+  //validateField("dateEnd", bookingEnd);
+  validateField("client", clientnSend);
+  mostrarMensajeError();
 };
 
 const cleanFields = () => {
@@ -384,4 +384,88 @@ const cleanFields = () => {
   // Restablecer el valor seleccionado en el elemento select
   var selectElement = document.getElementById("clientnSend");
   selectElement.selectedIndex = 0; // Establece la opción predeterminada como seleccionada
+};
+let errorMessages = {};
+
+const validateField = (fieldName, value) => {
+  switch (fieldName) {
+    case "service":
+      const nombrePattern = /^[a-zA-Z]{3,}$/;
+      if (!nombrePattern.test(value)) {
+        errorMessages[fieldName] =
+          "El campo Nombre debe contener solo letras y tener al menos 3 caracteres.";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+    case "dateStart":
+      const dateStartPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+      if (!dateStartPattern.test(value)) {
+        errorMessages[fieldName] =
+          "El campo de fecha debe estar en formato data-time";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+    case "dateEnd":
+      const dateEndPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+      if (!dateEndPattern.test(value)) {
+        errorMessages[fieldName] =
+          "El campo de fecha debe estar en formato data-time";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+    case "id":
+      const idPatterna = /^[0-9]+$/;
+      if (!idPatterna.test(value)) {
+        errorMessages[fieldName] =
+          "El id dee ser numerico";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+      case "id":
+      const idPattern = /^[0-9]+$/;
+      if (!idPattern.test(value)) {
+        errorMessages[fieldName] =
+          "El id dee ser numerico";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+      case "client":
+      if (value == null || value == undefined || value == "Cliente") {
+        errorMessages[fieldName] =
+          "El id dee ser numerico";
+      } else {
+        errorMessages[fieldName] = "";
+      }
+      break;
+    default:
+      break;
+  }
+};
+const validateFields2 = (service, dateStart, dateEnd) => {
+  validateField("service", service);
+  //validateField("dateStart", dateStart);
+  //validateField("dateEnd", dateEnd);
+
+  mostrarMensajeError();
+};
+
+const mostrarMensajeError = () => {
+  const errorMessagesArray = Object.entries(errorMessages).filter(([fieldName, message]) => message !== "");
+
+  if (errorMessagesArray.length > 0) {
+      const errorMessageText = errorMessagesArray.map(([fieldName, message]) => `---${fieldName}: ${message}-`).join('\n');
+
+      Swal.fire({
+          title: "Campos inválidos",
+          text: errorMessageText,
+          icon: "error",
+          showCancelButton: true,
+          confirmButtonText: "Aceptar"
+      });
+  }
 };
