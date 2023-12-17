@@ -59,22 +59,22 @@ const loadTable = () => {
             
                                 <div class="mb-3">
                                     <label for="update-name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="update-name" value="${cliente.name}">
+                                    <input type="text" class="form-control" id="update-name${cliente._id}" value="${cliente.name}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="update-celphone" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="update-celphone" value="${cliente.celphone}">
+                                    <input type="tel" class="form-control" id="update-celphone${cliente._id}" value="${cliente.celphone}">
                                 </div>
                                 <div class="mb-3">
                                     <label for="update-email" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="update-email" value="${cliente.email}">
+                                    <input type="email" class="form-control" id="update-email${cliente._id}" value="${cliente.email}">
                                 </div>
                             </div>
                             <div class="modal-footer">
                             
 
                                 <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
+                            <button type="button" class="btn btn-primary" onclick="updateClient('${cliente.id}' , '${cliente._id}')">Actualizar Cliente</button>
                             </div>
                         </div>
                     </div>
@@ -130,45 +130,7 @@ const findById = () => {
 
                     <td>
                     
-                           
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
-                    Editar
-                </button>
-            
-                <!-- Modal -->
-                <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="editModalLabel">Editar Cliente</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-            
-            
-                                <div class="mb-3">
-                                    <label for="update-name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="update-name" value="${cliente.name}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="update-celphone" class="form-label">Teléfono</label>
-                                    <input type="tel" class="form-control" id="update-celphone" value="${cliente.celphone}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="update-email" class="form-label">Correo Electrónico</label>
-                                    <input type="email" class="form-control" id="update-email" value="${cliente.email}">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                            
-
-                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            
+                     
 
 
                 </td> 
@@ -254,11 +216,12 @@ const addClient = () => {
 
 
 
-const updateClient = (clientId) => {
-
-    const updatedName = document.getElementById("update-name").value;
-    const updatedCelphone = document.getElementById("update-celphone").value;
-    const updatedEmail = document.getElementById("update-email").value;
+const updateClient = (ClienteId1,clientId) => {
+    console.log("aa",clientId)
+    console.log("aa2",ClienteId1)
+    const updatedName = document.getElementById("update-name"+clientId).value;
+    const updatedCelphone = document.getElementById("update-celphone"+clientId).value;
+    const updatedEmail = document.getElementById("update-email"+clientId).value;
     const updateData = {
 
         name: updatedName,
@@ -267,7 +230,7 @@ const updateClient = (clientId) => {
     };
 
 
-    fetch(`https://back-proyecto-1er50-electiva-ii.vercel.app/client/${clientId}`, {
+    fetch(`https://back-proyecto-1er50-electiva-ii.vercel.app/client/${ClienteId1}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
