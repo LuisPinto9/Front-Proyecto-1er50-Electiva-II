@@ -58,17 +58,17 @@ const loadTable = () => {
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">service</span>
+                    <span class="input-group-text" id="basic-addon1">servicio</span>
                     <input type="text" class="form-control" id="serviceEdit${element.id}" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">bookingStartDate</span>
+                    <span class="input-group-text" id="basic-addon1">inicio de la reservacion</span>
                     <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">bookingEndDate</span>
+                    <span class="input-group-text" id="basic-addon1">finalizacion de la reservacion</span>
                     <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
@@ -79,14 +79,14 @@ const loadTable = () => {
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">comments</span>
+                    <span class="input-group-text" id="basic-addon1">comentarios</span>
                     <input type="text" id="commentsEdit${element.id}" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Close</button>
-                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Editar Reservacion</button>
               </div>
             </div>
           </div>
