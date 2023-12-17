@@ -277,12 +277,21 @@ document.getElementById("Agregar").addEventListener("click", () => {
       .then((result) => result.json())
       .then((result) => {
         if (result.state) {
-          alert("Agregado!!");
+          Swal.fire({
+            title: "Insercion exitosa",
+            text: `La reservacion ha sido agregado.`,
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          });
           cleanFields();
           loadTable();
         } else {
-          alert(result.error);
-          console.log(result);
+          Swal.fire({
+            title: "Error al agregar la reservacion",
+            text: "Hubo un error al tratar de agregar en la base de datos.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
         }
       })
       .catch((err) => console.log(err+" verificar que el id no este repetido"));
@@ -333,9 +342,19 @@ const updateElement = (id) => {
     .then((response) => response.json())
     .then((result) => {
       if (result.state) {
-        alert("Reservacion actualizada exitosamente.");
+        Swal.fire({
+          title: "Actualizacion exitosa",
+          text: `La reservacion ha sido actualizada.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        alert(result.error);
+        Swal.fire({
+          title: "Error al editar la reservacion",
+          text: "Hubo un error al tratar de editar en la base de datos.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((error) => alert(error));
@@ -354,14 +373,28 @@ const deleteElement = (id) => {
     .then((result) => {
       if (result.state) {
         loadTable();
-        alert("Reservation eliminado");
+        Swal.fire({
+          title: "Eliminacion exitosa",
+          text: `La reservacion ha sido eliminada.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        alert("Error al eliminar el cliente");
+        Swal.fire({
+          title: "Error al eliminar el la reservacion",
+          text: "Hubo un error al tratar de eliminar en la base de datos.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert("Ocurrió un error al eliminar el cliente");
+      Swal.fire({
+        title: "Error al eliminar el la reservacion",
+        text: "Hubo un error al tratar de eliminar en la base de datos.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     });
 };
 
