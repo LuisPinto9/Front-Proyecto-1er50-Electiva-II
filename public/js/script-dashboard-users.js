@@ -69,12 +69,10 @@ const loadTable = () => {
                       type="button"
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
-                      onclick="
-                      loadTable()"
                     >
                       Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary" data-value="${user._id}" onclick='update(this.getAttribute("data-value"))' >
+                    <button type="button" class="btn btn-primary" data-value="${user._id}" onclick='update(this.getAttribute("data-value"))' data-bs-dismiss="modal">
                       Editar usuario
                     </button>
                   </div>
@@ -114,7 +112,7 @@ const findById = () => {
           return data.json();
         })
         .then((result) => {
-          const datos = result.data[0];
+          const datos = result.data;
           document.getElementById("table-body").innerHTML = "";
           const row = document.createElement("tr");
           row.innerHTML = `
@@ -166,11 +164,10 @@ const findById = () => {
                             type="button"
                             class="btn btn-secondary"
                             data-bs-dismiss="modal"
-                            onclick="loadTable()"
                           >
                             Cancelar
                           </button>
-                          <button type="button" class="btn btn-primary" data-value="${datos._id}" onclick='update(this.getAttribute("data-value"))'>
+                          <button type="button" class="btn btn-primary" data-value="${datos._id}" onclick='update(this.getAttribute("data-value"))' data-bs-dismiss="modal">
                             Editar usuario
                           </button>
                         </div>
@@ -184,6 +181,8 @@ const findById = () => {
         })
         .catch((error) => reject(error));
     });
+  } else if ((option.value = "Seleccione un ID")) {
+    loadTable();
   }
 };
 
@@ -213,9 +212,8 @@ const add = () => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  // Validación simple (puedes agregar más validaciones según tus necesidades)
   if (!username || !password) {
-    alert("Por favor, ingresa el nombre del usuario.");
+    alert("Por favor, ingresa el nombre del usuario y la contrseña.");
     return;
   }
 
@@ -260,6 +258,11 @@ const update = (id) => {
   const updateUsername = document.getElementById("update-username" + id).value;
   const updatePassword = document.getElementById("update-password" + id).value;
 
+  if (!updateUsername || !updatePassword) {
+    alert("Por favor, ingresa el nombre del usuario y la contrseña.");
+    return;
+  }
+
   const updateData = {
     username: updateUsername,
     password: updatePassword,
@@ -277,6 +280,7 @@ const update = (id) => {
     .then((result) => {
       if (result.state) {
         alert("Usuario actualizado exitosamente.");
+        loadTable();
       } else {
         alert("Error al actualizar el usuario.");
       }
