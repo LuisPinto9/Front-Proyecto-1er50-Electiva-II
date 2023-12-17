@@ -18,8 +18,6 @@ fetch(apiUrl, {
 const loadTable = () => {
     document.getElementById("table-body").innerHTML = "";
     return new Promise((resolve, reject) => {
-        // const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
-        // const authorizationToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MDI3NDc2NTIsImV4cCI6MTcwMjgzNDA1Mn0.PVLGbu42cyVknj6rUen0_RY0QsW4dtFGu4zyf5nWm_Y";
 
         fetch(apiUrl, {
             headers: {
@@ -30,6 +28,7 @@ const loadTable = () => {
             .then((datos) => {
                 console.log(datos);
                 const select = document.getElementById("select-id");
+
                 datos.data.forEach((cliente) => {
                     const row = document.createElement("tr");
                     row.innerHTML = `
@@ -40,6 +39,51 @@ const loadTable = () => {
               <td>${cliente.reservations.map(reserva => reserva.id).join(', ') || "N/A"}</td>
               <td><button class='btn btn-danger' value='${cliente.id
                         }' onclick='drop(this.value)'>Eliminar</button></td>
+
+                    <td>
+                    
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
+                    Editar
+                </button>
+            
+                <!-- Modal -->
+                <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="editModalLabel">Editar Cliente</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+            
+            
+                                <div class="mb-3">
+                                    <label for="update-name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="update-name" value="${cliente.name}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-celphone" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="update-celphone" value="${cliente.celphone}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-email" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="update-email" value="${cliente.email}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            
+
+                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+                </td> 
+
+                    
             `;
 
                     const option = document.createElement("option");
@@ -53,6 +97,7 @@ const loadTable = () => {
             .catch((error) => console.log(error));
     });
 };
+
 
 loadTable();
 const findById = () => {
@@ -81,7 +126,54 @@ const findById = () => {
                     <td>${datos.email || "N/A"}</td>
                     <td>${datos.reservations.map(reserva => reserva.id).join(', ') || "N/A"}</td>
                     <td><button class='btn btn-danger' value='${datos.id}' onclick='drop(this.value)'>Eliminar</button></td>
+                    
+
+                    <td>
+                    
+                           
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
+                    Editar
+                </button>
+            
+                <!-- Modal -->
+                <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="editModalLabel">Editar Cliente</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+            
+            
+                                <div class="mb-3">
+                                    <label for="update-name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="update-name" value="${cliente.name}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-celphone" class="form-label">Teléfono</label>
+                                    <input type="tel" class="form-control" id="update-celphone" value="${cliente.celphone}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="update-email" class="form-label">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="update-email" value="${cliente.email}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            
+
+                                <button type="button" class="btn btn-secondary" onclick="loadTable()" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary" onclick="updateClient('${cliente._id}')">Actualizar Cliente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+
+                </td> 
                 `;
+
 
                     document.getElementById("table-body").appendChild(row);
                     console.log(row);
@@ -90,7 +182,6 @@ const findById = () => {
         });
     }
 };
-
 
 const drop = (id) => {
     const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/client/${id}`;
@@ -121,14 +212,11 @@ const addClient = () => {
     const name = document.getElementById("name").value;
     const celphone = document.getElementById("celphone").value;
     const email = document.getElementById("email").value;
-
-    // Validación simple (puedes agregar más validaciones según tus necesidades)
     if (!name) {
         alert("Por favor, ingresa el nombre del cliente.");
         return;
     }
 
-    // Objeto que representa el nuevo cliente
     const newClient = {
         id: id,
         name: name,
@@ -136,7 +224,6 @@ const addClient = () => {
         email: email,
     };
 
-    // Realiza la solicitud para agregar el nuevo cliente
     fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -153,7 +240,6 @@ const addClient = () => {
         })
         .then((result) => {
             if (result.state) {
-                // Si se agrega exitosamente, recarga la tabla
                 loadTable();
                 alert("Cliente agregado exitosamente.");
             } else {
@@ -165,6 +251,51 @@ const addClient = () => {
             alert("Ocurrió un error al agregar el cliente.");
         });
 };
+
+
+
+const updateClient = (clientId) => {
+
+    const updatedName = document.getElementById("update-name").value;
+    const updatedCelphone = document.getElementById("update-celphone").value;
+    const updatedEmail = document.getElementById("update-email").value;
+    const updateData = {
+
+        name: updatedName,
+        celphone: updatedCelphone,
+        email: updatedEmail
+    };
+
+
+    fetch(`https://back-proyecto-1er50-electiva-ii.vercel.app/client/${clientId}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `${authorizationToken}`
+        },
+        body: JSON.stringify(updateData)
+    })
+        .then((response) => response.json())
+        .then((result) => {
+            if (result.state) {
+
+                alert("Cliente actualizado exitosamente.");
+
+            } else {
+                alert("Error al actualizar el cliente.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("Ocurrió un error al actualizar el cliente.");
+        });
+
+
+};
+
+
+
+
 
 
 
