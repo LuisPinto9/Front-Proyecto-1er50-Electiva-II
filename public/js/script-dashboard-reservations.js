@@ -28,6 +28,7 @@ const loadTable = () => {
         <td>${element.bookingStartDate}</td>
         <td>${element.bookingEndDate}</td>
         <td>${element.service}</td>
+        <td>${element.client.name}</td>
         <td>${element.comments}</td>
         <td><!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop${element._id}">
@@ -45,6 +46,11 @@ const loadTable = () => {
               <div class="modal-body">
 
                     <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">ID</span>
+                    <input disabled type="number" id="idEdit" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    </div>
+
+                    <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">service</span>
                     <input type="text" class="form-control" id="serviceEdit" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
@@ -59,6 +65,12 @@ const loadTable = () => {
                     <input type="datetime-local" id="dateEndEdit" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
+
+                    <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Cliente</span>
+                    <input disabled type="text" id="clientEdit" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    </div>
+
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">comments</span>
                     <input type="text" id="commentsEdit" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
@@ -66,8 +78,8 @@ const loadTable = () => {
 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onClick="test()">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Close</button>
+                <button type="button" class="btn btn-primary" onClick="updateElement()">Aceptar</button>
               </div>
             </div>
           </div>
@@ -165,15 +177,6 @@ document
   .addEventListener("click", () => {
     loadTable();
   });
-try {
-  document.getElementById("editModal").addEventListener("click", () => {
-    console.log("oasodh");
-    const service = document.getElementById("serviceEdit").value
-    console.log(service);
-
-  });
-} catch (err) {
-}
 
 const dateFormat = (date) => {
   var fechaOriginal = new Date(date);
@@ -190,32 +193,180 @@ const dateFormat = (date) => {
   return fechaFormateadaStart;
 };
 
+const chargeSelect = () => {
+  const URIC = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
+  const token = localStorage.getItem("login");
+
+  fetch(URIC, {
+    headers: {
+      Authorization: `${token}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      data.data.forEach((element) => {
+        const select = document.createElement("option");
+        select.value = element._id;
+        select.textContent = element.name;
+
+        document.getElementById("clientnSend").appendChild(select);
+      });
+    });
+};
+
+document.getElementById("Agregar").addEventListener("click", () => {
+  const id = document.getElementById("idSend").value;
+  const name = document.getElementById("nameSend").value;
+  const bookingStar = document.getElementById("bookingStar").value;
+  const bookingEnd = document.getElementById("bookingEnd").value;
+  const clientnSend = document.getElementById("clientnSend").value;
+  const comments = document.getElementById("commentsSend").value;
+
+  if (
+    validateFields(id, name, bookingStar, clientnSend, bookingEnd, comments)
+  ) {
+    const dataSend = {
+      id: id,
+      bookingStartDate: bookingStar,
+      bookingEndDate: bookingEnd,
+      service: name,
+      comments: comments,
+      client: {
+        _id: clientnSend,
+      },
+    };
+
+    //falta validar para que no deje campos vacios
+    const URI =
+      "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
+    const token = localStorage.getItem("login");
+    fetch(URI, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(dataSend),
+    })
+      .then((result) => result.json())
+      .then((result) => {
+        if (result.state) {
+          alert("Agregado!!");
+          cleanFields();
+          loadTable();
+        } else {
+          alert("some wrong");
+          console.log(result);
+        }
+      })
+      .catch((err) => console.log(err));
+  } else {
+    alert("por favor llene todos los campos");
+  }
+});
+
+document.getElementById("limpiar").addEventListener("click", () => {
+  cleanFields();
+});
+
+chargeSelect();
 loadTable();
 
-const test = () => {
-    console.log("tesss");
-}
+const updateElement = () => {
+  const id = document.getElementById("idEdit").value;
+  const service = document.getElementById("serviceEdit").value;
+  const dateStart = document.getElementById("dateStartEdit").value;
+  const dateEnd = document.getElementById("dateEndEdit").value;
+  const client = document.getElementById("clientEdit").value;
+  const comments = document.getElementById("commentsEdit").value;
+
+  const updateData = {
+    bookingStartDate: dateStart,
+    bookingEndDate: dateEnd,
+    service: service,
+    cliente: client,
+    comments: comments,
+  };
+  const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
+  const token = localStorage.getItem("login");
+  fetch(URI, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(updateData),
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.state) {
+        alert("Reservacion actualizada exitosamente.");
+      } else {
+        alert(result.error);
+      }
+    })
+    .catch((error) => alert(error));
+};
 
 const deleteElement = (id) => {
-    const token = localStorage.getItem("login");
-    const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
-    fetch(URI, {
-        method: "DELETE",
-        headers: {
-            Authorization: token
-        }
+  const token = localStorage.getItem("login");
+  const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
+  fetch(URI, {
+    method: "DELETE",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.state) {
+        loadTable();
+        alert("Reservation eliminado");
+      } else {
+        alert("Error al eliminar el cliente");
+      }
     })
-        .then((response) => response.json())
-        .then((result) => {
-            if (result.state) {
-                loadTable();
-                alert("Cliente eliminado");
-            } else {
-                alert("Error al eliminar el cliente");
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("Ocurrió un error al eliminar el cliente");
-        });
-}
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Ocurrió un error al eliminar el cliente");
+    });
+};
+
+const validateFields = (
+  id,
+  name,
+  bookingStar,
+  clientnSend,
+  bookingEnd,
+  comments
+) => {
+  const validate =
+    id == undefined ||
+    name == undefined ||
+    bookingStar == undefined ||
+    bookingEnd == undefined ||
+    clientnSend == undefined ||
+    comments == undefined ||
+    id == null ||
+    name == null ||
+    bookingStar == null ||
+    bookingEnd == null ||
+    clientnSend == null ||
+    comments == null ||
+    clientnSend == "Cliente"
+      ? false
+      : true;
+  return validate;
+};
+
+const cleanFields = () => {
+  document.getElementById("idSend").value = "";
+  document.getElementById("nameSend").value = "";
+  document.getElementById("bookingStar").value = "";
+  document.getElementById("bookingEnd").value = "";
+  document.getElementById("commentsSend").value = "";
+
+  // Restablecer el valor seleccionado en el elemento select
+  var selectElement = document.getElementById("clientnSend");
+  selectElement.selectedIndex = 0; // Establece la opción predeterminada como seleccionada
+};
