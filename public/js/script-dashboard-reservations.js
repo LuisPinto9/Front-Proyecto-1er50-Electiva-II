@@ -423,7 +423,7 @@ let errorMessages = {};
 const validateField = (fieldName, value) => {
   switch (fieldName) {
     case "service":
-      const nombrePattern = /^[a-zA-Z]{3,}$/;
+      const nombrePattern = /^[a-zA-Z ]{3,}$/;
       if (!nombrePattern.test(value)) {
         errorMessages[fieldName] =
           "El campo Nombre debe contener solo letras y tener al menos 3 caracteres.";
