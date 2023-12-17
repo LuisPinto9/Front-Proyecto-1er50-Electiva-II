@@ -18,7 +18,7 @@ document.getElementById("btnLogin").addEventListener("click", () => {
     .then((data) => {
       if (data.state) {
         console.log(data);
-        window.location.replace("/dashboard/home");
+        window.location.replace("/dashboard-home");
         SaveLocalStorage("login", data.token);
       } else {
         alert(data.error);

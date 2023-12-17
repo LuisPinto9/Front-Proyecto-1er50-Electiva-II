@@ -166,8 +166,7 @@ const findById = () => {
                             type="button"
                             class="btn btn-secondary"
                             data-bs-dismiss="modal"
-                            onclick="
-                      loadTable()"
+                            onclick="loadTable()"
                           >
                             Cancelar
                           </button>
