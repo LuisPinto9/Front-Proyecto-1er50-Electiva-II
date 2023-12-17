@@ -258,8 +258,10 @@ const add = () => {
 };
 
 const update = (id) => {
-  const updateUsername = document.getElementById("update-username").innerHTML;
-  const updatePassword = document.getElementById("update-password").innerHTML;
+  const updateUsername = document.getElementById("update-username").value;
+  const updatePassword = document.getElementById("update-password").value;
+
+  console.log(updateUsername, updatePassword);
 
   const updateData = {
     username: updateUsername,
