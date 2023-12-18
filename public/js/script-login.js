@@ -21,7 +21,7 @@ document.getElementById("btnLogin").addEventListener("click", () => {
         SaveLocalStorage("login", data.token);
       } else {
         Swal.fire({
-          title: "Usuario invalido",
+          title: "Error de ingreso",
           text: "Revise el usuario o la contraseña.",
           icon: "error",
           confirmButtonText: "Aceptar",
