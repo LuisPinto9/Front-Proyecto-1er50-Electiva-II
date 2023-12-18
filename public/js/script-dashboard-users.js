@@ -296,8 +296,8 @@ const add = () => {
     })
     .catch((error) => {
       Swal.fire({
-        title: "Error de conexión",
-        text: "Hubo un error al tratar de conectar con el servidor.",
+        title: "Error de guardado",
+        text: "Ha ocurrido un error en el guardado del usuario, verifique si el usuario ya existe.",
         icon: "error",
         confirmButtonText: "Aceptar",
       });

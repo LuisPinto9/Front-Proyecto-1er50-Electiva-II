@@ -20,11 +20,21 @@ document.getElementById("btnLogin").addEventListener("click", () => {
         window.location.replace("/dashboard-home");
         SaveLocalStorage("login", data.token);
       } else {
-        alert(data.error);
+        Swal.fire({
+          title: "Usuario invalido",
+          text: "Revise el usuario o la contraseña.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
       }
     })
     .catch((err) => {
-      alert(err);
+      Swal.fire({
+        title: "Error de conexión",
+        text: `${err}`,
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     });
 });
 
