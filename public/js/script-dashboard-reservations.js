@@ -48,7 +48,7 @@ const loadTable = () => {
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="loadTable()"></button>
               </div>
               <div class="modal-body">
 
@@ -64,12 +64,12 @@ const loadTable = () => {
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">inicio de la reservacion</span>
-                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">finalizacion de la reservacion</span>
-                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
                     </div>
 
 
@@ -129,7 +129,7 @@ const actualizarTabla = (datos) => {
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="loadTable()"></button>
               </div>
               <div class="modal-body">
 
@@ -145,12 +145,12 @@ const actualizarTabla = (datos) => {
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">inicio de la reservacion</span>
-                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
                     </div>
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">finalizacion de la reservacion</span>
-                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
                     </div>
 
 
@@ -245,7 +245,7 @@ document.getElementById("Agregar").addEventListener("click", () => {
   const clientnSend = document.getElementById("clientnSend").value;
   const comments = document.getElementById("commentsSend").value;
 
-  validateFields(id,service,bookingStar,bookingEnd,clientnSend);
+  validateFields(id, service, bookingStar, bookingEnd, clientnSend);
   const hasErrors = Object.values(errorMessages).some(
     (message) => message !== ""
   );
@@ -254,50 +254,49 @@ document.getElementById("Agregar").addEventListener("click", () => {
     mostrarMensajeError();
     return;
   }
-    const dataSend = {
-      id: id,
-      bookingStartDate: bookingStar,
-      bookingEndDate: bookingEnd,
-      service: service,
-      comments: comments,
-      client: {
-        _id: clientnSend,
-      },
-    };
+  const dataSend = {
+    id: id,
+    bookingStartDate: bookingStar,
+    bookingEndDate: bookingEnd,
+    service: service,
+    comments: comments,
+    client: {
+      _id: clientnSend,
+    },
+  };
 
-    //falta validar para que no deje campos vacios
-    const URI =
-      "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
-    const token = localStorage.getItem("login");
-    fetch(URI, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(dataSend),
+  //falta validar para que no deje campos vacios
+  const URI = "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
+  const token = localStorage.getItem("login");
+  fetch(URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(dataSend),
+  })
+    .then((result) => result.json())
+    .then((result) => {
+      if (result.state) {
+        Swal.fire({
+          title: "Insercion exitosa",
+          text: `La reservacion ha sido agregado.`,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        });
+        cleanFields();
+        loadTable();
+      } else {
+        Swal.fire({
+          title: "Error al agregar la reservacion",
+          text: "Hubo un error al tratar de agregar en la base de datos.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
     })
-      .then((result) => result.json())
-      .then((result) => {
-        if (result.state) {
-          Swal.fire({
-            title: "Insercion exitosa",
-            text: `La reservacion ha sido agregado.`,
-            icon: "success",
-            confirmButtonText: "Aceptar",
-          });
-          cleanFields();
-          loadTable();
-        } else {
-          Swal.fire({
-            title: "Error al agregar la reservacion",
-            text: "Hubo un error al tratar de agregar en la base de datos.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          });
-        }
-      })
-      .catch((err) => console.log(err+" verificar que el id no este repetido"));
+    .catch((err) => console.log(err + " verificar que el id no este repetido"));
 });
 
 chargeSelect();
@@ -398,7 +397,7 @@ const deleteElement = (id) => {
     });
 };
 
-const validateFields = (id,service,bookingStar,bookingEnd,clientnSend)=>{
+const validateFields = (id, service, bookingStar, bookingEnd, clientnSend) => {
   validateField("id", id);
   validateField("service", service);
   //validateField("dateStart", bookingStar);
@@ -452,25 +451,22 @@ const validateField = (fieldName, value) => {
     case "id":
       const idPatterna = /^[0-9]+$/;
       if (!idPatterna.test(value)) {
-        errorMessages[fieldName] =
-          "El id dee ser numerico";
+        errorMessages[fieldName] = "El id dee ser numerico";
       } else {
         errorMessages[fieldName] = "";
       }
       break;
-      case "id":
+    case "id":
       const idPattern = /^[0-9]+$/;
       if (!idPattern.test(value)) {
-        errorMessages[fieldName] =
-          "El id dee ser numerico";
+        errorMessages[fieldName] = "El id dee ser numerico";
       } else {
         errorMessages[fieldName] = "";
       }
       break;
-      case "client":
+    case "client":
       if (value == null || value == undefined || value == "Cliente") {
-        errorMessages[fieldName] =
-          "El id dee ser numerico";
+        errorMessages[fieldName] = "El id dee ser numerico";
       } else {
         errorMessages[fieldName] = "";
       }
@@ -488,17 +484,35 @@ const validateFields2 = (service, dateStart, dateEnd) => {
 };
 
 const mostrarMensajeError = () => {
-  const errorMessagesArray = Object.entries(errorMessages).filter(([fieldName, message]) => message !== "");
+  const errorMessagesArray = Object.entries(errorMessages).filter(
+    ([fieldName, message]) => message !== ""
+  );
 
   if (errorMessagesArray.length > 0) {
-      const errorMessageText = errorMessagesArray.map(([fieldName, message]) => `---${fieldName}: ${message}-`).join('\n');
+    const errorMessageText = errorMessagesArray
+      .map(([fieldName, message]) => `---${fieldName}: ${message}-`)
+      .join("\n");
 
-      Swal.fire({
-          title: "Campos inválidos",
-          text: errorMessageText,
-          icon: "error",
-          showCancelButton: true,
-          confirmButtonText: "Aceptar"
-      });
+    Swal.fire({
+      title: "Campos inválidos",
+      text: errorMessageText,
+      icon: "error",
+      showCancelButton: true,
+      confirmButtonText: "Aceptar",
+    });
   }
 };
+
+const minDate = () => {
+  // Obtener el elemento de entrada
+  var inputFechaStart = document.getElementById("bookingStar");
+  var inputFechaEnd = document.getElementById("bookingEnd");
+  // Obtener la fecha actual en el formato de entrada
+  var fechaActual = new Date().toISOString().slice(0, 16);
+
+  // Establecer el atributo 'min' en el elemento de entrada
+  inputFechaStart.min = fechaActual;
+  inputFechaEnd.min = fechaActual;
+};
+
+minDate();
