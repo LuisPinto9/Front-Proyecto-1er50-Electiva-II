@@ -87,8 +87,13 @@
     </div>
 
     <div class="container">
-      <div class="input-group mb-3 pt-3">
-        <span class="input-group-text" id="basic-addon1">Id para buscar</span>
+      <div class="input-group pt-3 d-flex align-items-center">
+        <span class="input-group-text" id="basic-addon1"
+        style="
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            max-height: 3rem;
+          "  >Id para buscar</span>
         <select class="form-select" id="select-id" onchange="findById()">
           <option value="Seleccione un ID">Seleccione un ID</option>
         </select>
@@ -105,7 +110,7 @@
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
           class="bi bi-plus-circle-fill m-0 p-0"
-          style="font-size: 2.5rem; color: rgb(0, 127, 59)"
+          style="font-size: 2.5rem; color: blue"
         ></i>
 
         <div
@@ -186,8 +191,8 @@
               <th>Nombre</th>
               <th>Teléfono</th>
               <th>Email</th>
-              <th>Eliminar</th>
               <th>Editar</th>
+              <th>Eliminar</th>
             </tr>
           </thead>
           <tbody id="table-body"></tbody>

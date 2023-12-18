@@ -41,12 +41,14 @@ const loadTable = () => {
                 <td>${cliente.name}</td>
                 <td>${cliente.celphone || "N/A"}</td>
                 <td>${cliente.email || "N/A"}</td>
-                <td><i class="bi bi-x-circle" data-value='${cliente._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
                 <td>      
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${cliente._id}">
-                    Editar
-                    </button>
-            
+                
+                    <i class="bi bi-pencil-fill"
+                    type="button" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal${cliente._id}" 
+                    style="color: #FFC300; font-size: 2rem;">
+                    </i>
                     <!-- Modal -->
                     <div class="modal fade" id="editModal${cliente._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -81,6 +83,7 @@ const loadTable = () => {
             
 
                 </td> 
+                <td><i class="bi bi-x-circle" data-value='${cliente._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
 
                     
             `;
@@ -124,11 +127,13 @@ const findById = () => {
                     <td>${datos.name}</td>
                     <td>${datos.celphone || "N/A"}</td>
                     <td>${datos.email || "N/A"}</td>
-                    <td><i class="bi bi-x-circle" data-value='${datos._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
                     <td>      
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal${datos._id}">
-                    Editar
-                    </button>
+                    <i class="bi bi-pencil-fill"
+                    type="button" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal${datos._id}" 
+                    style="color: #FFC300; font-size: 2rem;">
+                    </i>
             
                     <!-- Modal -->
                     <div class="modal fade" id="editModal${datos._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -162,9 +167,9 @@ const findById = () => {
                             </div>
                         </div>
                     </div>
-            
+                  </td> 
+                    <td><i class="bi bi-x-circle" data-value='${datos._id}' type="button" onclick='drop(this.getAttribute("data-value"))' style="color: red; font-size: 2rem;"></i></td>
 
-                     </td> 
 
                 `;
                     document.getElementById("table-body").appendChild(row);
@@ -325,7 +330,7 @@ const mostrarMensajeError = () => {
         const errorMessageText = errorMessagesArray.map(([fieldName, message]) => `---${fieldName}: ${message}-`).join('\n');
 
         Swal.fire({
-            title: "Campos inválidos",
+            title: "Ingrese los campos correctamente.\n",
             text: errorMessageText,
             icon: "error",
             showCancelButton: true,
@@ -367,20 +372,32 @@ const updateClient = (ClienteId1, clientId) => {
         .then((response) => response.json())
         .then((result) => {
             if (result.state) {
-
-                alert("Cliente actualizado exitosamente.");
+                Swal.fire({
+                    title: "Actualización exitosa",
+                    text: `El Cliente ha sido actualizado.`,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                  });
 
             } else {
-                alert("Error al actualizar el cliente.");
+                Swal.fire({
+                    title: "Error al actualizar el usuario",
+                    text: "Hubo un error al tratar de actualizar en la base de datos.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                  });
             }
         })
         .catch((error) => {
             console.error("Error:", error);
-            alert("Ocurrió un error al actualizar el cliente.");
-        });
-
-
-};
+            Swal.fire({
+                title: "Error de conexión",
+                text: "Hubo un error al tratar de conectar con el servidor.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+              });
+            });
+      };
 
 
 
