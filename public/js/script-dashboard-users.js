@@ -287,7 +287,6 @@ const add = () => {
     })
     .then((result) => {
       if (result.state) {
-        // Si se agrega exitosamente, recarga la tabla
         Swal.fire({
           title: "Registro exitoso",
           text: `El usuario ${username} ha sido registrado.`,

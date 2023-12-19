@@ -205,9 +205,18 @@ const drop = (id) => {
         .then((result) => {
             if (result.state) {
                 loadTable();
-                alert("Cliente eliminado");
+                Swal.fire({
+                    title: "Eliminación exitosa",
+                    text: `El usuario fue eliminado.`,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                  });
             } else {
-                alert("Error al eliminar el cliente");
+                Swal.fire({
+                    title: "Error al eliminar el usuario",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                  });
             }
         })
         .catch((error) => {
@@ -270,9 +279,19 @@ const addClient = () => {
             if (result.state) {
                 loadTable();
                 limpiarCampos();
-                alert("Cliente agregado exitosamente.");
+                Swal.fire({
+                    title: "Registro exitoso",
+                    text: `El usuario ${name} ha sido registrado.`,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                  });
             } else {
-                alert("Error al agregar el cliente.");
+                Swal.fire({
+                    title: "Error al registrar el usuario",
+                    text: "Hubo un error al tratar de registrar en la base de datos.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                  });
             }
         })
         .catch((error) => {
@@ -412,15 +431,6 @@ const updateClient = (ClienteId1, clientId) => {
             });
       };
 
-
-
-    //   const isAuthenticated = localStorage.getItem("login");
-    //   const privateRoutes = ["/dashboard-home", /* Agrega otras rutas protegidas */];
-    //   const currentPath = window.location.pathname;
-      
-    //   if (!isAuthenticated && privateRoutes.includes(currentPath)) {
-    //     window.location.href = "/404";
-    //   }
 
 
 
