@@ -2,20 +2,16 @@ console.log("Inicio del script");
 
 const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
 const authorizationToken = localStorage.getItem("login")
-
-
-
 const isAuthenticated = () => {
-    const token = localStorage.getItem("login");
-    return token !== null && token !== undefined;
+    return authorizationToken !== null && authorizationToken !== undefined;
   };
     
-  const requireLogin = (req, res, next) => {
-    if (!isAuthenticated()) {
-        window.location.replace("/login");
-    } 
-  };
-  requireLogin()
+const requireLogin = () => {
+if (!isAuthenticated()) {
+    window.location.replace("/login");
+} 
+};  
+requireLogin()
 
 
 

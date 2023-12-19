@@ -1,6 +1,19 @@
+const token = localStorage.getItem("login");
+
+const isAuthenticated = () => {
+  return token !== null && token !== undefined;
+};
+  
+const requireLogin = () => {
+if (!isAuthenticated()) {
+  window.location.replace("/login");
+} 
+};  
+requireLogin()
+
 const loadTable = () => {
   const URI = "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
-  const token = localStorage.getItem("login");
+  
   fetch(URI, {
     headers: {
       Authorization: `${token}`,
@@ -182,7 +195,6 @@ const actualizarTabla = (datos) => {
 document.getElementById("select-reservation").addEventListener("change", () => {
   const valor = document.getElementById("select-reservation").value;
   const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${valor}`;
-  const token = localStorage.getItem("login");
   fetch(URI, {
     headers: {
       Authorization: `${token}`,
@@ -218,7 +230,6 @@ const dateFormat = (date) => {
 
 const chargeSelect = () => {
   const URIC = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
-  const token = localStorage.getItem("login");
 
   fetch(URIC, {
     headers: {
@@ -267,7 +278,6 @@ document.getElementById("Agregar").addEventListener("click", () => {
 
   //falta validar para que no deje campos vacios
   const URI = "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
-  const token = localStorage.getItem("login");
   fetch(URI, {
     method: "POST",
     headers: {
@@ -328,7 +338,6 @@ const updateElement = (id) => {
   };
 
   const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
-  const token = localStorage.getItem("login");
   fetch(URI, {
     method: "PATCH",
     headers: {
@@ -360,7 +369,6 @@ const updateElement = (id) => {
 
 const deleteElement = (id) => {
   console.log(id);
-  const token = localStorage.getItem("login");
   const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
   fetch(URI, {
     method: "DELETE",

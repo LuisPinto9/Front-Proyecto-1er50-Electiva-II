@@ -1,6 +1,18 @@
 const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/login/";
 const authorizationToken = localStorage.getItem("login");
 
+const isAuthenticated = () => {
+  return authorizationToken !== null && authorizationToken !== undefined;
+};
+  
+const requireLogin = () => {
+if (!isAuthenticated()) {
+  window.location.replace("/login");
+} 
+};  
+requireLogin()
+
+
 const loadTable = () => {
   document.getElementById("table-body").innerHTML = "";
   document.getElementById("select-id").innerHTML = "";
