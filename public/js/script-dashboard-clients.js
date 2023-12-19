@@ -3,6 +3,23 @@ console.log("Inicio del script");
 const apiUrl = "https://back-proyecto-1er50-electiva-ii.vercel.app/client";
 const authorizationToken = localStorage.getItem("login")
 
+
+
+const isAuthenticated = () => {
+    const token = localStorage.getItem("login");
+    return token !== null && token !== undefined;
+  };
+    
+  const requireLogin = (req, res, next) => {
+    if (!isAuthenticated()) {
+        window.location.replace("/login");
+    } 
+  };
+  requireLogin()
+
+
+
+
 fetch(apiUrl, {
     headers: {
         Authorization: `${authorizationToken}`
@@ -401,7 +418,13 @@ const updateClient = (ClienteId1, clientId) => {
 
 
 
-
+    //   const isAuthenticated = localStorage.getItem("login");
+    //   const privateRoutes = ["/dashboard-home", /* Agrega otras rutas protegidas */];
+    //   const currentPath = window.location.pathname;
+      
+    //   if (!isAuthenticated && privateRoutes.includes(currentPath)) {
+    //     window.location.href = "/404";
+    //   }
 
 
 
