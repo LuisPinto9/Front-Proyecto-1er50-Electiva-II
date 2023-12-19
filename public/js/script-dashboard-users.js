@@ -4,14 +4,13 @@ const authorizationToken = localStorage.getItem("login");
 const isAuthenticated = () => {
   return authorizationToken !== null && authorizationToken !== undefined;
 };
-  
-const requireLogin = () => {
-if (!isAuthenticated()) {
-  window.location.replace("/login");
-} 
-};  
-requireLogin()
 
+const requireLogin = () => {
+  if (!isAuthenticated()) {
+    window.location.replace("/login");
+  }
+};
+requireLogin();
 
 const loadTable = () => {
   document.getElementById("table-body").innerHTML = "";
@@ -373,4 +372,8 @@ const update = (id) => {
         confirmButtonText: "Aceptar",
       });
     });
+};
+
+const logOut = () => {
+  localStorage.removeItem("login");
 };

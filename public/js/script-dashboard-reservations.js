@@ -3,17 +3,17 @@ const token = localStorage.getItem("login");
 const isAuthenticated = () => {
   return token !== null && token !== undefined;
 };
-  
+
 const requireLogin = () => {
-if (!isAuthenticated()) {
-  window.location.replace("/login");
-} 
-};  
-requireLogin()
+  if (!isAuthenticated()) {
+    window.location.replace("/login");
+  }
+};
+requireLogin();
 
 const loadTable = () => {
   const URI = "https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/";
-  
+
   fetch(URI, {
     headers: {
       Authorization: `${token}`,
@@ -56,55 +56,85 @@ const loadTable = () => {
         </i>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop${element._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop${
+          element._id
+        }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar</h1>
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Editar reservación</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick="loadTable()"></button>
               </div>
               <div class="modal-body">
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">ID</span>
-                    <input disabled type="number" id="idEdit${element.id}" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="number" id="idEdit${
+                      element.id
+                    }" class="form-control" value=${
+          element.id
+        } placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">servicio</span>
-                    <input type="text" class="form-control" id="serviceEdit${element.id}" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
+                    <span class="input-group-text" id="basic-addon1">Servicio</span>
+                    <input type="text" class="form-control" id="serviceEdit${
+                      element.id
+                    }" value=${
+          element.service
+        } placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">inicio de la reservacion</span>
-                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
+                    <span class="input-group-text" id="basic-addon1">Inicio de la reservación</span>
+                    <input type="datetime-local" id="dateStartEdit${
+                      element.id
+                    }" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date()
+          .toISOString()
+          .slice(0, 16)}">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">finalizacion de la reservacion</span>
-                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
+                    <span class="input-group-text" id="basic-addon1">Finalizacion de la reservación</span>
+                    <input type="datetime-local" id="dateEndEdit${
+                      element.id
+                    }" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date()
+          .toISOString()
+          .slice(0, 16)}">
                     </div>
 
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Cliente</span>
-                    <input disabled type="text" id="clientEdit${element.id}" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="text" id="clientEdit${
+                      element.id
+                    }" class="form-control" value=${
+          element.client.name
+        } placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">comentarios</span>
-                    <input type="text" id="commentsEdit${element.id}" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <span class="input-group-text" id="basic-addon1">Comentarios</span>
+                    <input type="text" id="commentsEdit${
+                      element.id
+                    }" class="form-control" value=${
+          element.comments
+        } placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Editar Reservacion</button>
+                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${
+                  element.id
+                }">Editar Reservacion</button>
               </div>
             </div>
           </div>
         </div></td>
-        <td><i class="bi bi-x-circle" data-value="${element.id}" type="button" onClick='deleteElement(this.getAttribute("data-value"))' style="color: red; font-size: 2rem; border: none;"></i></td>
+        <td><i class="bi bi-x-circle" data-value="${
+          element.id
+        }" type="button" onClick='deleteElement(this.getAttribute("data-value"))' style="color: red; font-size: 2rem; border: none;"></i></td>
 
         `;
         tbody.appendChild(row);
@@ -137,7 +167,9 @@ const actualizarTabla = (datos) => {
         </i>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop${element._id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop${
+          element._id
+        }" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -148,44 +180,72 @@ const actualizarTabla = (datos) => {
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">ID</span>
-                    <input disabled type="number" id="idEdit${element.id}" class="form-control" value=${element.id} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="number" id="idEdit${
+                      element.id
+                    }" class="form-control" value=${
+      element.id
+    } placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">servicio</span>
-                    <input type="text" class="form-control" id="serviceEdit${element.id}" value=${element.service} placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
+                    <span class="input-group-text" id="basic-addon1">Servicio</span>
+                    <input type="text" class="form-control" id="serviceEdit${
+                      element.id
+                    }" value=${
+      element.service
+    } placeholder="service" aria-label="Username" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">inicio de la reservacion</span>
-                    <input type="datetime-local" id="dateStartEdit${element.id}" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
+                    <span class="input-group-text" id="basic-addon1">Inicio de la reservación</span>
+                    <input type="datetime-local" id="dateStartEdit${
+                      element.id
+                    }" class="form-control" value=${dateStart} placeholder="bookingStartDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date()
+      .toISOString()
+      .slice(0, 16)}">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">finalizacion de la reservacion</span>
-                    <input type="datetime-local" id="dateEndEdit${element.id}" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date().toISOString().slice(0, 16)}">
+                    <span class="input-group-text" id="basic-addon1">Finalización de la reservación</span>
+                    <input type="datetime-local" id="dateEndEdit${
+                      element.id
+                    }" class="form-control" value=${dateEnd} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1" min="${new Date()
+      .toISOString()
+      .slice(0, 16)}">
                     </div>
 
 
                     <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Cliente</span>
-                    <input disabled type="text" id="clientEdit${element.id}" class="form-control" value=${element.client.name} placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <input disabled type="text" id="clientEdit${
+                      element.id
+                    }" class="form-control" value=${
+      element.client.name
+    } placeholder="bookingEndDate" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">comentarios</span>
-                    <input type="text" id="commentsEdit${element.id}" class="form-control" value=${element.comments} placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
+                    <span class="input-group-text" id="basic-addon1">Comentarios</span>
+                    <input type="text" id="commentsEdit${
+                      element.id
+                    }" class="form-control" value=${
+      element.comments
+    } placeholder="comments" aria-label="bookingStartDate" aria-describedby="basic-addon1">
                     </div>
 
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="loadTable()">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${element.id}">Editar Reservacion</button>
+                <button type="button" class="btn btn-primary" onclick='updateElement(this.getAttribute("data-value"))' data-value="${
+                  element.id
+                }">Editar Reservacion</button>
               </div>
             </div>
           </div>
         </div></td>
-        <td><i class="bi bi-x-circle" data-value="${element.id}" type="button" onClick='deleteElement(this.getAttribute("data-value"))' style="color: red; font-size: 2rem; border: none;"></i></td>
+        <td><i class="bi bi-x-circle" data-value="${
+          element.id
+        }" type="button" onClick='deleteElement(this.getAttribute("data-value"))' style="color: red; font-size: 2rem; border: none;"></i></td>
 
         `;
     document.getElementById("tBody").appendChild(row);
@@ -291,7 +351,7 @@ document.getElementById("Agregar").addEventListener("click", () => {
       if (result.state) {
         Swal.fire({
           title: "Insercion exitosa",
-          text: `La reservacion ha sido agregado.`,
+          text: `La reservación ha sido agregado.`,
           icon: "success",
           confirmButtonText: "Aceptar",
         });
@@ -299,7 +359,7 @@ document.getElementById("Agregar").addEventListener("click", () => {
         loadTable();
       } else {
         Swal.fire({
-          title: "Error al agregar la reservacion",
+          title: "Error al agregar la reservación",
           text: "Hubo un error al tratar de agregar en la base de datos.",
           icon: "error",
           confirmButtonText: "Aceptar",
@@ -351,13 +411,13 @@ const updateElement = (id) => {
       if (result.state) {
         Swal.fire({
           title: "Actualizacion exitosa",
-          text: `La reservacion ha sido actualizada.`,
+          text: `La reservación ha sido actualizada.`,
           icon: "success",
           confirmButtonText: "Aceptar",
         });
       } else {
         Swal.fire({
-          title: "Error al editar la reservacion",
+          title: "Error al editar la reservación",
           text: "Hubo un error al tratar de editar en la base de datos.",
           icon: "error",
           confirmButtonText: "Aceptar",
@@ -368,7 +428,6 @@ const updateElement = (id) => {
 };
 
 const deleteElement = (id) => {
-  console.log(id);
   const URI = `https://back-proyecto-1er50-electiva-ii.vercel.app/reservation/${id}`;
   fetch(URI, {
     method: "DELETE",
@@ -381,14 +440,14 @@ const deleteElement = (id) => {
       if (result.state) {
         loadTable();
         Swal.fire({
-          title: "Eliminacion exitosa",
-          text: `La reservacion ha sido eliminada.`,
+          title: "Eliminación exitosa",
+          text: `La reservación ha sido eliminada.`,
           icon: "success",
           confirmButtonText: "Aceptar",
         });
       } else {
         Swal.fire({
-          title: "Error al eliminar el la reservacion",
+          title: "Error al eliminar el la reservación",
           text: "Hubo un error al tratar de eliminar en la base de datos.",
           icon: "error",
           confirmButtonText: "Aceptar",
@@ -397,7 +456,7 @@ const deleteElement = (id) => {
     })
     .catch((error) => {
       Swal.fire({
-        title: "Error al eliminar el la reservacion",
+        title: "Error al eliminar el la reservación",
         text: "Hubo un error al tratar de eliminar en la base de datos.",
         icon: "error",
         confirmButtonText: "Aceptar",
@@ -524,3 +583,7 @@ const minDate = () => {
 };
 
 minDate();
+
+const logOut = () => {
+  localStorage.removeItem("login");
+};
